@@ -168,6 +168,11 @@
                 An activity object that represents the user's current activity.
             </returns>
         </member>
+        <member name="P:Discord.WebSocket.BaseSocketClient.Rest">
+            <summary>
+                Provides access to a REST-only client with a shared state from this client.
+            </summary>
+        </member>
         <member name="P:Discord.WebSocket.BaseSocketClient.CurrentUser">
             <summary>
                 Gets the current logged-in user.
@@ -535,7 +540,7 @@
                 </note>
                 <para>
                     This event is fired when multiple messages are bulk deleted. The event handler must return a
-                    <see cref="T:System.Threading.Tasks.Task"/> and accept an <see cref="!:IReadOnlyCollection&lt;Cacheable&lt;TEntity,TId&gt;&gt;"/> and 
+                    <see cref="T:System.Threading.Tasks.Task"/> and accept an <see cref="T:System.Collections.Generic.IReadOnlyCollection`1"/> and 
                     <see cref="T:Discord.WebSocket.ISocketMessageChannel"/> as its parameters.
                 </para>
                 <para>
@@ -697,6 +702,11 @@
         <member name="P:Discord.WebSocket.DiscordShardedClient.VoiceRegions">
             <inheritdoc />
         </member>
+        <member name="P:Discord.WebSocket.DiscordShardedClient.Rest">
+            <summary>
+                Provides access to a REST-only client with a shared state from this client.
+            </summary>
+        </member>
         <member name="M:Discord.WebSocket.DiscordShardedClient.#ctor">
             <summary> Creates a new REST/WebSocket Discord client. </summary>
         </member>
@@ -800,7 +810,9 @@
             </summary>
         </member>
         <member name="P:Discord.WebSocket.DiscordSocketClient.Rest">
-            <summary> Provides access to a REST-only client with a shared state from this client. </summary>
+            <summary>
+                Provides access to a REST-only client with a shared state from this client.
+            </summary>
         </member>
         <member name="P:Discord.WebSocket.DiscordSocketClient.ShardId">
             <summary> Gets the shard of of this client. </summary>
@@ -1018,7 +1030,7 @@
         </member>
         <member name="F:Discord.WebSocket.DiscordSocketConfig.GatewayEncoding">
             <summary>
-                Gets or sets the encoding gateway should use.
+               Returns the encoding gateway should use.
             </summary>
         </member>
         <member name="P:Discord.WebSocket.DiscordSocketConfig.GatewayHost">
@@ -1072,7 +1084,7 @@
                 <para>
                     By default, the Discord gateway will only send offline members if a guild has less than a certain number
                     of members (determined by <see cref="P:Discord.WebSocket.DiscordSocketConfig.LargeThreshold"/> in this library). This behaviour is why
-                    sometimes a user may be missing from the WebSocket cache for collections such as 
+                    sometimes a user may be missing from the WebSocket cache for collections such as
                     <see cref="P:Discord.WebSocket.SocketGuild.Users"/>.
                 </para>
                 <para>
@@ -1081,7 +1093,7 @@
                     downloaded to the WebSocket cache.
                 </para>
                 <para>
-                    For more information, please see 
+                    For more information, please see
                     <see href="https://discordapp.com/developers/docs/topics/gateway#request-guild-members">Request Guild Members</see>
                     on the official Discord API documentation.
                 </para>
@@ -1090,8 +1102,9 @@
                     traffic. If you are using the command system, the default user TypeReader may fail to find the user
                     due to this issue. This may be resolved at v3 of the library. Until then, you may want to consider
                     overriding the TypeReader and use
-                    <see cref="M:Discord.Rest.DiscordRestClient.GetUserAsync(System.UInt64,Discord.RequestOptions)"/> 
-                    or <see cref="!:DiscordSocketRestClient.GetGuildUserAsync(ulong, ulong, RequestOptions)"/> as a backup.
+                    <see cref="M:Discord.Rest.DiscordRestClient.GetUserAsync(System.UInt64,Discord.RequestOptions)"/>
+                    or <see cref="M:Discord.Rest.DiscordRestClient.GetGuildUserAsync(System.UInt64,System.UInt64,Discord.RequestOptions)"/>
+                    as a backup.
                 </note>
             </remarks>
         </member>
@@ -1112,6 +1125,11 @@
             
                  If unset, both events will be raised, but a warning will be raised the first time a bulk delete event is received.
              </summary>
+        </member>
+        <member name="P:Discord.WebSocket.DiscordSocketConfig.GuildSubscriptions">
+            <summary>
+                Gets or sets enabling dispatching of guild subscription events e.g. presence and typing events.
+            </summary>
         </member>
         <member name="M:Discord.WebSocket.DiscordSocketConfig.#ctor">
             <summary>
@@ -1177,7 +1195,7 @@
                 Sends a file to this message channel with an optional caption.
             </summary>
             <remarks>
-                This method follows the same behavior as described in <see cref="!:IMessageChannel.SendFileAsync(Stream, string, string, bool, Embed, RequestOptions)"/>.
+                This method follows the same behavior as described in <see cref="M:Discord.IMessageChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)"/>.
                 Please visit its documentation for more details on this method.
             </remarks>
             <param name="stream">The <see cref="T:System.IO.Stream" /> of the file to be sent.</param>
@@ -1880,8 +1898,21 @@
         </member>
         <member name="T:Discord.WebSocket.SocketNewsChannel">
             <summary>
-                Represents a WebSocket-based news channel in a guild that has the same properties as a <see cref="!:RestTextChannel"/>.
+                Represents a WebSocket-based news channel in a guild that has the same properties as a <see cref="T:Discord.WebSocket.SocketTextChannel"/>.
             </summary>
+            <remarks>
+                <note type="warning">
+                    The <see cref="P:Discord.WebSocket.SocketNewsChannel.SlowModeInterval"/> property is not supported for news channels.
+                </note>
+            </remarks>
+        </member>
+        <member name="P:Discord.WebSocket.SocketNewsChannel.SlowModeInterval">
+            <inheritdoc />
+            <remarks>
+                <note type="important">
+                This property is not supported by this type. Attempting to use this property will result in a <see cref="T:System.NotSupportedException"/>.
+                </note>
+            </remarks>
         </member>
         <member name="T:Discord.WebSocket.SocketTextChannel">
             <summary>
@@ -2239,6 +2270,30 @@
         <member name="P:Discord.WebSocket.SocketGuild.SplashId">
             <inheritdoc />
         </member>
+        <member name="P:Discord.WebSocket.SocketGuild.PremiumTier">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.WebSocket.SocketGuild.BannerId">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.WebSocket.SocketGuild.VanityURLCode">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.WebSocket.SocketGuild.SystemChannelFlags">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.WebSocket.SocketGuild.Description">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.WebSocket.SocketGuild.PremiumSubscriptionCount">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.WebSocket.SocketGuild.PreferredLocale">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.WebSocket.SocketGuild.PreferredCulture">
+            <inheritdoc />
+        </member>
         <member name="P:Discord.WebSocket.SocketGuild.CreatedAt">
             <inheritdoc />
         </member>
@@ -2246,6 +2301,9 @@
             <inheritdoc />
         </member>
         <member name="P:Discord.WebSocket.SocketGuild.SplashUrl">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.WebSocket.SocketGuild.BannerUrl">
             <inheritdoc />
         </member>
         <member name="P:Discord.WebSocket.SocketGuild.HasAllMembers">
@@ -2573,6 +2631,9 @@
             </returns>
         </member>
         <member name="M:Discord.WebSocket.SocketGuild.CreateRoleAsync(System.String,System.Nullable{Discord.GuildPermissions},System.Nullable{Discord.Color},System.Boolean,Discord.RequestOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:Discord.WebSocket.SocketGuild.CreateRoleAsync(System.String,System.Nullable{Discord.GuildPermissions},System.Nullable{Discord.Color},System.Boolean,System.Boolean,Discord.RequestOptions)">
             <summary>
                 Creates a new role with the provided name.
             </summary>
@@ -2580,6 +2641,7 @@
             <param name="permissions">The guild permission that the role should possess.</param>
             <param name="color">The color of the role.</param>
             <param name="isHoisted">Whether the role is separated from others on the sidebar.</param>
+            <param name="isMentionable">Whether the role can be mentioned.</param>
             <param name="options">The options to be used when sending the request.</param>
             <exception cref="T:System.ArgumentNullException"><paramref name="name"/> is <c>null</c>.</exception>
             <returns>
@@ -2612,12 +2674,15 @@
         <member name="M:Discord.WebSocket.SocketGuild.DownloadUsersAsync">
             <inheritdoc />
         </member>
-        <member name="M:Discord.WebSocket.SocketGuild.GetAuditLogsAsync(System.Int32,Discord.RequestOptions)">
+        <member name="M:Discord.WebSocket.SocketGuild.GetAuditLogsAsync(System.Int32,Discord.RequestOptions,System.Nullable{System.UInt64},System.Nullable{System.UInt64},System.Nullable{Discord.ActionType})">
             <summary>
                 Gets the specified number of audit log entries for this guild.
             </summary>
             <param name="limit">The number of audit log entries to fetch.</param>
             <param name="options">The options to be used when sending the request.</param>
+            <param name="beforeId">The audit log entry ID to filter entries before.</param>
+            <param name="actionType">The type of actions to filter.</param>
+            <param name="userId">The user ID to filter entries for.</param>
             <returns>
                 A task that represents the asynchronous get operation. The task result contains a read-only collection
                 of the requested audit log entries.
@@ -2761,6 +2826,9 @@
         <member name="M:Discord.WebSocket.SocketGuild.Discord#IGuild#CreateRoleAsync(System.String,System.Nullable{Discord.GuildPermissions},System.Nullable{Discord.Color},System.Boolean,Discord.RequestOptions)">
             <inheritdoc />
         </member>
+        <member name="M:Discord.WebSocket.SocketGuild.Discord#IGuild#CreateRoleAsync(System.String,System.Nullable{Discord.GuildPermissions},System.Nullable{Discord.Color},System.Boolean,System.Boolean,Discord.RequestOptions)">
+            <inheritdoc />
+        </member>
         <member name="M:Discord.WebSocket.SocketGuild.Discord#IGuild#GetUsersAsync(Discord.CacheMode,Discord.RequestOptions)">
             <inheritdoc />
         </member>
@@ -2776,7 +2844,7 @@
         <member name="M:Discord.WebSocket.SocketGuild.Discord#IGuild#GetOwnerAsync(Discord.CacheMode,Discord.RequestOptions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.WebSocket.SocketGuild.Discord#IGuild#GetAuditLogsAsync(System.Int32,Discord.CacheMode,Discord.RequestOptions)">
+        <member name="M:Discord.WebSocket.SocketGuild.Discord#IGuild#GetAuditLogsAsync(System.Int32,Discord.CacheMode,Discord.RequestOptions,System.Nullable{System.UInt64},System.Nullable{System.UInt64},System.Nullable{Discord.ActionType})">
             <inheritdoc />
         </member>
         <member name="M:Discord.WebSocket.SocketGuild.Discord#IGuild#GetWebhookAsync(System.UInt64,Discord.RequestOptions)">
@@ -2824,6 +2892,9 @@
         <member name="P:Discord.WebSocket.SocketMessage.IsPinned">
             <inheritdoc />
         </member>
+        <member name="P:Discord.WebSocket.SocketMessage.IsSuppressed">
+            <inheritdoc />
+        </member>
         <member name="P:Discord.WebSocket.SocketMessage.EditedTimestamp">
             <inheritdoc />
         </member>
@@ -2831,6 +2902,9 @@
             <inheritdoc />
         </member>
         <member name="P:Discord.WebSocket.SocketMessage.Application">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.WebSocket.SocketMessage.Reference">
             <inheritdoc />
         </member>
         <member name="P:Discord.WebSocket.SocketMessage.Attachments">
@@ -2876,6 +2950,9 @@
         <member name="P:Discord.WebSocket.SocketMessage.Tags">
             <inheritdoc />
         </member>
+        <member name="P:Discord.WebSocket.SocketMessage.Reactions">
+            <inheritdoc />
+        </member>
         <member name="P:Discord.WebSocket.SocketMessage.Timestamp">
             <inheritdoc />
         </member>
@@ -2912,6 +2989,21 @@
             <inheritdoc />
         </member>
         <member name="P:Discord.WebSocket.SocketMessage.Discord#IMessage#MentionedUserIds">
+            <inheritdoc />
+        </member>
+        <member name="M:Discord.WebSocket.SocketMessage.AddReactionAsync(Discord.IEmote,Discord.RequestOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:Discord.WebSocket.SocketMessage.RemoveReactionAsync(Discord.IEmote,Discord.IUser,Discord.RequestOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:Discord.WebSocket.SocketMessage.RemoveReactionAsync(Discord.IEmote,System.UInt64,Discord.RequestOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:Discord.WebSocket.SocketMessage.RemoveAllReactionsAsync(Discord.RequestOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:Discord.WebSocket.SocketMessage.GetReactionUsersAsync(Discord.IEmote,System.Int32,Discord.RequestOptions)">
             <inheritdoc />
         </member>
         <member name="T:Discord.WebSocket.SocketReaction">
@@ -3006,6 +3098,9 @@
         <member name="P:Discord.WebSocket.SocketUserMessage.IsPinned">
             <inheritdoc />
         </member>
+        <member name="P:Discord.WebSocket.SocketUserMessage.IsSuppressed">
+            <inheritdoc />
+        </member>
         <member name="P:Discord.WebSocket.SocketUserMessage.EditedTimestamp">
             <inheritdoc />
         </member>
@@ -3027,30 +3122,18 @@
         <member name="P:Discord.WebSocket.SocketUserMessage.MentionedUsers">
             <inheritdoc />
         </member>
-        <member name="P:Discord.WebSocket.SocketUserMessage.Reactions">
-            <inheritdoc />
-        </member>
         <member name="M:Discord.WebSocket.SocketUserMessage.ModifyAsync(System.Action{Discord.MessageProperties},Discord.RequestOptions)">
             <inheritdoc />
             <exception cref="T:System.InvalidOperationException">Only the author of a message may modify the message.</exception>
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
-        <member name="M:Discord.WebSocket.SocketUserMessage.AddReactionAsync(Discord.IEmote,Discord.RequestOptions)">
-            <inheritdoc />
-        </member>
-        <member name="M:Discord.WebSocket.SocketUserMessage.RemoveReactionAsync(Discord.IEmote,Discord.IUser,Discord.RequestOptions)">
-            <inheritdoc />
-        </member>
-        <member name="M:Discord.WebSocket.SocketUserMessage.RemoveAllReactionsAsync(Discord.RequestOptions)">
-            <inheritdoc />
-        </member>
-        <member name="M:Discord.WebSocket.SocketUserMessage.GetReactionUsersAsync(Discord.IEmote,System.Int32,Discord.RequestOptions)">
-            <inheritdoc />
-        </member>
         <member name="M:Discord.WebSocket.SocketUserMessage.PinAsync(Discord.RequestOptions)">
             <inheritdoc />
         </member>
         <member name="M:Discord.WebSocket.SocketUserMessage.UnpinAsync(Discord.RequestOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:Discord.WebSocket.SocketUserMessage.ModifySuppressionAsync(System.Boolean,Discord.RequestOptions)">
             <inheritdoc />
         </member>
         <member name="M:Discord.WebSocket.SocketUserMessage.Resolve(Discord.TagHandling,Discord.TagHandling,Discord.TagHandling,Discord.TagHandling,Discord.TagHandling)">
@@ -3177,6 +3260,9 @@
         <member name="P:Discord.WebSocket.SocketGroupUser.Discord#IVoiceState#VoiceSessionId">
             <inheritdoc />
         </member>
+        <member name="P:Discord.WebSocket.SocketGroupUser.Discord#IVoiceState#IsStreaming">
+            <inheritdoc />
+        </member>
         <member name="T:Discord.WebSocket.SocketGuildUser">
             <summary>
                 Represents a WebSocket-based guild user.
@@ -3223,6 +3309,9 @@
         <member name="P:Discord.WebSocket.SocketGuildUser.IsMuted">
             <inheritdoc />
         </member>
+        <member name="P:Discord.WebSocket.SocketGuildUser.IsStreaming">
+            <inheritdoc />
+        </member>
         <member name="P:Discord.WebSocket.SocketGuildUser.JoinedAt">
             <inheritdoc />
         </member>
@@ -3247,6 +3336,9 @@
                 A <see cref="T:Discord.WebSocket.SocketVoiceState" /> representing the user's voice status; <c>null</c> if the user is not
                 connected to a voice channel.
             </returns>
+        </member>
+        <member name="P:Discord.WebSocket.SocketGuildUser.PremiumSince">
+            <inheritdoc />
         </member>
         <member name="P:Discord.WebSocket.SocketGuildUser.Hierarchy">
             <summary>
@@ -3301,6 +3393,22 @@
         <member name="P:Discord.WebSocket.SocketPresence.Activity">
             <inheritdoc />
         </member>
+        <member name="P:Discord.WebSocket.SocketPresence.ActiveClients">
+            <inheritdoc />
+        </member>
+        <member name="M:Discord.WebSocket.SocketPresence.ConvertClientTypesDict(System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+                Creates a new <see cref="T:System.Collections.Generic.IReadOnlyCollection`1"/> containing all of the client types
+                where a user is active from the data supplied in the Presence update frame.
+            </summary>
+            <param name="clientTypesDict">
+                A dictionary keyed by the <see cref="T:Discord.ClientType"/>
+                and where the value is the <see cref="T:Discord.UserStatus"/>.
+            </param>
+            <returns>
+                A collection of all <see cref="T:Discord.ClientType"/>s that this user is active.
+            </returns>
+        </member>
         <member name="M:Discord.WebSocket.SocketPresence.ToString">
             <summary>
                 Gets the status of the user.
@@ -3338,6 +3446,15 @@
         <member name="P:Discord.WebSocket.SocketSelfUser.Presence">
             <inheritdoc />
         </member>
+        <member name="P:Discord.WebSocket.SocketSelfUser.Flags">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.WebSocket.SocketSelfUser.PremiumType">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.WebSocket.SocketSelfUser.Locale">
+            <inheritdoc />
+        </member>
         <member name="P:Discord.WebSocket.SocketSelfUser.IsWebhook">
             <inheritdoc />
         </member>
@@ -3365,6 +3482,9 @@
             <inheritdoc />
         </member>
         <member name="P:Discord.WebSocket.SocketUnknownUser.IsWebhook">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.WebSocket.SocketUnknownUser.Presence">
             <inheritdoc />
         </member>
         <member name="P:Discord.WebSocket.SocketUnknownUser.GlobalUser">
@@ -3404,6 +3524,9 @@
             <inheritdoc />
         </member>
         <member name="P:Discord.WebSocket.SocketUser.Status">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.WebSocket.SocketUser.ActiveClients">
             <inheritdoc />
         </member>
         <member name="P:Discord.WebSocket.SocketUser.MutualGuilds">
@@ -3461,6 +3584,9 @@
         <member name="P:Discord.WebSocket.SocketVoiceState.IsSelfDeafened">
             <inheritdoc />
         </member>
+        <member name="P:Discord.WebSocket.SocketVoiceState.IsStreaming">
+            <inheritdoc />
+        </member>
         <member name="M:Discord.WebSocket.SocketVoiceState.ToString">
             <summary>
                 Gets the name of this voice channel.
@@ -3498,6 +3624,9 @@
         <member name="P:Discord.WebSocket.SocketWebhookUser.IsWebhook">
             <inheritdoc />
         </member>
+        <member name="P:Discord.WebSocket.SocketWebhookUser.Presence">
+            <inheritdoc />
+        </member>
         <member name="P:Discord.WebSocket.SocketWebhookUser.Discord#IGuildUser#Guild">
             <inheritdoc />
         </member>
@@ -3511,6 +3640,9 @@
             <inheritdoc />
         </member>
         <member name="P:Discord.WebSocket.SocketWebhookUser.Discord#IGuildUser#Nickname">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.WebSocket.SocketWebhookUser.Discord#IGuildUser#PremiumSince">
             <inheritdoc />
         </member>
         <member name="P:Discord.WebSocket.SocketWebhookUser.Discord#IGuildUser#GuildPermissions">
@@ -3562,6 +3694,9 @@
             <inheritdoc />
         </member>
         <member name="P:Discord.WebSocket.SocketWebhookUser.Discord#IVoiceState#VoiceSessionId">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.WebSocket.SocketWebhookUser.Discord#IVoiceState#IsStreaming">
             <inheritdoc />
         </member>
         <member name="T:Discord.WebSocket.SocketVoiceServer">

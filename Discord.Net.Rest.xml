@@ -29,7 +29,7 @@
                 Gets the name of the application.
             </summary>
         </member>
-        <member name="M:Discord.API.DiscordRestApiClient.#ctor(Discord.Net.Rest.RestClientProvider,System.String,Discord.RetryMode,Newtonsoft.Json.JsonSerializer)">
+        <member name="M:Discord.API.DiscordRestApiClient.#ctor(Discord.Net.Rest.RestClientProvider,System.String,Discord.RetryMode,Newtonsoft.Json.JsonSerializer,Discord.RateLimitPrecision,System.Boolean)">
             <exception cref="T:System.ArgumentException">Unknown OAuth token type.</exception>
         </member>
         <member name="M:Discord.API.DiscordRestApiClient.SetBaseUrl(System.String)">
@@ -330,6 +330,35 @@
                 The type of channel that was created.
             </returns>
         </member>
+        <member name="P:Discord.Rest.ChannelCreateAuditLogData.SlowModeInterval">
+            <summary>
+                Gets the current slow-mode delay of the created channel.
+            </summary>
+            <returns>
+                An <see cref="!:Int32"/> representing the time in seconds required before the user can send another
+                message; <c>0</c> if disabled.
+                <c>null</c> if this is not mentioned in this entry.
+            </returns>
+        </member>
+        <member name="P:Discord.Rest.ChannelCreateAuditLogData.IsNsfw">
+            <summary>
+                Gets the value that indicates whether the created channel is NSFW.
+            </summary>
+            <returns>
+                <c>true</c> if the created channel has the NSFW flag enabled; otherwise <c>false</c>.
+                <c>null</c> if this is not mentioned in this entry.
+            </returns>
+        </member>
+        <member name="P:Discord.Rest.ChannelCreateAuditLogData.Bitrate">
+            <summary>
+                Gets the bit-rate that the clients in the created voice channel are requested to use.
+            </summary>
+            <returns>
+                An <see cref="!:Int32"/> representing the bit-rate (bps) that the created voice channel defines and requests the
+                client(s) to use.
+                <c>null</c> if this is not mentioned in this entry.
+            </returns>
+        </member>
         <member name="P:Discord.Rest.ChannelCreateAuditLogData.Overwrites">
             <summary>
                 Gets a collection of permission overwrites that was assigned to the created channel.
@@ -368,6 +397,34 @@
                 The type of channel that was deleted.
             </returns>
         </member>
+        <member name="P:Discord.Rest.ChannelDeleteAuditLogData.SlowModeInterval">
+            <summary>
+                Gets the slow-mode delay of the deleted channel.
+            </summary>
+            <returns>
+                An <see cref="!:Int32"/> representing the time in seconds required before the user can send another
+                message; <c>0</c> if disabled.
+                <c>null</c> if this is not mentioned in this entry.
+            </returns>
+        </member>
+        <member name="P:Discord.Rest.ChannelDeleteAuditLogData.IsNsfw">
+            <summary>
+                Gets the value that indicates whether the deleted channel was NSFW.
+            </summary>
+            <returns>
+                <c>true</c> if this channel had the NSFW flag enabled; otherwise <c>false</c>.
+                <c>null</c> if this is not mentioned in this entry.
+            </returns>
+        </member>
+        <member name="P:Discord.Rest.ChannelDeleteAuditLogData.Bitrate">
+            <summary>
+                Gets the bit-rate of this channel if applicable.
+            </summary>
+            <returns>
+                An <see cref="!:Int32"/> representing the bit-rate set of the voice channel.
+                <c>null</c> if this is not mentioned in this entry.
+            </returns>
+        </member>
         <member name="P:Discord.Rest.ChannelDeleteAuditLogData.Overwrites">
             <summary>
                 Gets a collection of permission overwrites that was assigned to the deleted channel.
@@ -397,22 +454,32 @@
                 A string containing the topic of this channel, if any.
             </returns>
         </member>
+        <member name="P:Discord.Rest.ChannelInfo.SlowModeInterval">
+            <summary>
+                Gets the current slow-mode delay of this channel.
+            </summary>
+            <returns>
+                An <see cref="!:Int32"/> representing the time in seconds required before the user can send another
+                message; <c>0</c> if disabled.
+                <c>null</c> if this is not mentioned in this entry.
+            </returns>
+        </member>
+        <member name="P:Discord.Rest.ChannelInfo.IsNsfw">
+            <summary>
+                Gets the value that indicates whether this channel is NSFW.
+            </summary>
+            <returns>
+                <c>true</c> if this channel has the NSFW flag enabled; otherwise <c>false</c>.
+                <c>null</c> if this is not mentioned in this entry.
+            </returns>
+        </member>
         <member name="P:Discord.Rest.ChannelInfo.Bitrate">
             <summary>
                 Gets the bit-rate of this channel if applicable.
             </summary>
             <returns>
-                An <see cref="T:System.Int32"/> representing the bit-rate set for the voice channel; <c>null</c> if not
-                applicable.
-            </returns>
-        </member>
-        <member name="P:Discord.Rest.ChannelInfo.UserLimit">
-            <summary>
-                Gets the number of users allowed to be in this channel if applicable.
-            </summary>
-            <returns>
-                An <see cref="T:System.Int32" /> representing the number of users allowed to be in this voice channel; 
-                <c>null</c> if not applicable.
+                An <see cref="!:Int32"/> representing the bit-rate set for the voice channel;
+                <c>null</c> if this is not mentioned in this entry.
             </returns>
         </member>
         <member name="T:Discord.Rest.ChannelUpdateAuditLogData">
@@ -528,12 +595,17 @@
             <returns>
                 An <see cref="T:System.Int32"/> representing the amount of time in seconds for a user to be marked as inactive
                 and moved into the AFK voice channel.
+                <c>null</c> if this is not mentioned in this entry.
             </returns>
         </member>
         <member name="P:Discord.Rest.GuildInfo.DefaultMessageNotifications">
             <summary>
                 Gets the default message notifications for users who haven't explicitly set their notification settings.
             </summary>
+            <returns>
+                The default message notifications setting of this guild.
+                <c>null</c> if this is not mentioned in this entry.
+            </returns>
         </member>
         <member name="P:Discord.Rest.GuildInfo.AfkChannelId">
             <summary>
@@ -571,6 +643,7 @@
             </summary>
             <returns>
                 The level of requirements.
+                <c>null</c> if this is not mentioned in this entry.
             </returns>
         </member>
         <member name="P:Discord.Rest.GuildInfo.Owner">
@@ -588,6 +661,42 @@
             </summary>
             <returns>
                 The level of MFA requirement.
+                <c>null</c> if this is not mentioned in this entry.
+            </returns>
+        </member>
+        <member name="P:Discord.Rest.GuildInfo.ExplicitContentFilter">
+            <summary>
+                Gets the level of content filtering applied to user's content in a Guild.
+            </summary>
+            <returns>
+                The level of explicit content filtering.
+            </returns>
+        </member>
+        <member name="P:Discord.Rest.GuildInfo.SystemChannelId">
+            <summary>
+                Gets the ID of the channel where system messages are sent.
+            </summary>
+            <returns>
+                A <see cref="T:System.UInt64"/> representing the snowflake identifier of the channel where system
+                messages are sent; <c>null</c> if none is set.
+            </returns>
+        </member>
+        <member name="P:Discord.Rest.GuildInfo.EmbedChannelId">
+            <summary>
+                Gets the ID of the widget embed channel of this guild.
+            </summary>
+            <returns>
+                A <see cref="T:System.UInt64"/> representing the snowflake identifier of the embedded channel found within the
+                widget settings of this guild; <c>null</c> if none is set.
+            </returns>
+        </member>
+        <member name="P:Discord.Rest.GuildInfo.IsEmbeddable">
+            <summary>
+                Gets a value that indicates whether this guild is embeddable (i.e. can use widget).
+            </summary>
+            <returns>
+                <c>true</c> if this guild can be embedded via widgets; otherwise <c>false</c>.
+                <c>null</c> if this is not mentioned in this entry.
             </returns>
         </member>
         <member name="T:Discord.Rest.GuildUpdateAuditLogData">
@@ -820,6 +929,39 @@
                 A user object representing the kicked user.
             </returns>
         </member>
+        <member name="T:Discord.Rest.MemberInfo">
+            <summary>
+                Represents information for a member.
+            </summary>
+        </member>
+        <member name="P:Discord.Rest.MemberInfo.Nickname">
+            <summary>
+                Gets the nickname of the updated member.
+            </summary>
+            <returns>
+                A string representing the nickname of the updated member; <c>null</c> if none is set.
+            </returns>
+        </member>
+        <member name="P:Discord.Rest.MemberInfo.Deaf">
+            <summary>
+                Gets a value that indicates whether the updated member is deafened by the guild.
+            </summary>
+            <returns>
+                <c>true</c> if the updated member is deafened (i.e. not permitted to listen to or speak to others) by the guild;
+                otherwise <c>false</c>.
+                <c>null</c> if this is not mentioned in this entry.
+            </returns>
+        </member>
+        <member name="P:Discord.Rest.MemberInfo.Mute">
+            <summary>
+                Gets a value that indicates whether the updated member is muted (i.e. not permitted to speak via voice) by the
+                guild.
+            </summary>
+            <returns>
+                <c>true</c> if the updated member is muted by the guild; otherwise <c>false</c>.
+                <c>null</c> if this is not mentioned in this entry.
+            </returns>
+        </member>
         <member name="T:Discord.Rest.MemberRoleAuditLogData">
             <summary>
                 Contains a piece of audit log data related to a change in a guild member's roles.
@@ -884,6 +1026,22 @@
                 A user object representing the user who the changes were performed on.
             </returns>
         </member>
+        <member name="P:Discord.Rest.MemberUpdateAuditLogData.Before">
+            <summary>
+                Gets the member information before the changes.
+            </summary>
+            <returns>
+                An information object containing the original member information before the changes were made.
+            </returns>
+        </member>
+        <member name="P:Discord.Rest.MemberUpdateAuditLogData.After">
+            <summary>
+                Gets the member information after the changes.
+            </summary>
+            <returns>
+                An information object containing the member information after the changes were made.
+            </returns>
+        </member>
         <member name="T:Discord.Rest.MessageDeleteAuditLogData">
             <summary>
                 Contains a piece of audit log data related to message deletion(s).
@@ -919,6 +1077,15 @@
                 Contains a piece of audit log data for a permissions overwrite creation.
             </summary>
         </member>
+        <member name="P:Discord.Rest.OverwriteCreateAuditLogData.ChannelId">
+            <summary>
+                Gets the ID of the channel that the overwrite was created from.
+            </summary>
+            <returns>
+                A <see cref="T:System.UInt64"/> representing the snowflake identifier for the channel that the overwrite was
+                created from.
+            </returns>
+        </member>
         <member name="P:Discord.Rest.OverwriteCreateAuditLogData.Overwrite">
             <summary>
                 Gets the permission overwrite object that was created.
@@ -932,6 +1099,15 @@
                 Contains a piece of audit log data related to the deletion of a permission overwrite.
             </summary>
         </member>
+        <member name="P:Discord.Rest.OverwriteDeleteAuditLogData.ChannelId">
+            <summary>
+                Gets the ID of the channel that the overwrite was deleted from.
+            </summary>
+            <returns>
+                A <see cref="T:System.UInt64"/> representing the snowflake identifier for the channel that the overwrite was
+                deleted from.
+            </returns>
+        </member>
         <member name="P:Discord.Rest.OverwriteDeleteAuditLogData.Overwrite">
             <summary>
                 Gets the permission overwrite object that was deleted.
@@ -944,6 +1120,15 @@
             <summary>
                 Contains a piece of audit log data related to the update of a permission overwrite.
             </summary>
+        </member>
+        <member name="P:Discord.Rest.OverwriteUpdateAuditLogData.ChannelId">
+            <summary>
+                Gets the ID of the channel that the overwrite was updated from.
+            </summary>
+            <returns>
+                A <see cref="T:System.UInt64"/> representing the snowflake identifier for the channel that the overwrite was
+                updated from.
+            </returns>
         </member>
         <member name="P:Discord.Rest.OverwriteUpdateAuditLogData.OldPermissions">
             <summary>
@@ -1386,7 +1571,7 @@
             </summary>
             <remarks>
                 This method follows the same behavior as described in 
-                <see cref="!:IMessageChannel.SendFileAsync(string, string, bool, Embed, RequestOptions)"/>. Please visit
+                <see cref="M:Discord.IMessageChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)"/>. Please visit
                 its documentation for more details on this method.
             </remarks>
             <param name="filePath">The file path of the file.</param>
@@ -2190,7 +2375,7 @@
         <member name="M:Discord.Rest.GuildHelper.CreateCategoryChannelAsync(Discord.IGuild,Discord.Rest.BaseDiscordClient,System.String,Discord.RequestOptions,System.Action{Discord.GuildChannelProperties})">
             <exception cref="T:System.ArgumentNullException"><paramref name="name"/> is <c>null</c>.</exception>
         </member>
-        <member name="M:Discord.Rest.GuildHelper.CreateRoleAsync(Discord.IGuild,Discord.Rest.BaseDiscordClient,System.String,System.Nullable{Discord.GuildPermissions},System.Nullable{Discord.Color},System.Boolean,Discord.RequestOptions)">
+        <member name="M:Discord.Rest.GuildHelper.CreateRoleAsync(Discord.IGuild,Discord.Rest.BaseDiscordClient,System.String,System.Nullable{Discord.GuildPermissions},System.Nullable{Discord.Color},System.Boolean,System.Boolean,Discord.RequestOptions)">
             <exception cref="T:System.ArgumentNullException"><paramref name="name"/> is <c>null</c>.</exception>
         </member>
         <member name="M:Discord.Rest.GuildHelper.ModifyEmoteAsync(Discord.IGuild,Discord.Rest.BaseDiscordClient,System.UInt64,System.Action{Discord.EmoteProperties},Discord.RequestOptions)">
@@ -2273,6 +2458,30 @@
         <member name="P:Discord.Rest.RestGuild.ApplicationId">
             <inheritdoc />
         </member>
+        <member name="P:Discord.Rest.RestGuild.PremiumTier">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.Rest.RestGuild.BannerId">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.Rest.RestGuild.VanityURLCode">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.Rest.RestGuild.SystemChannelFlags">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.Rest.RestGuild.Description">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.Rest.RestGuild.PremiumSubscriptionCount">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.Rest.RestGuild.PreferredLocale">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.Rest.RestGuild.PreferredCulture">
+            <inheritdoc />
+        </member>
         <member name="P:Discord.Rest.RestGuild.CreatedAt">
             <inheritdoc />
         </member>
@@ -2280,6 +2489,9 @@
             <inheritdoc />
         </member>
         <member name="P:Discord.Rest.RestGuild.SplashUrl">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.Rest.RestGuild.BannerUrl">
             <inheritdoc />
         </member>
         <member name="P:Discord.Rest.RestGuild.EveryoneRole">
@@ -2403,7 +2615,6 @@
             <summary>
                 Gets a collection of all text channels in this guild.
             </summary>
-            <param name="mode">The <see cref="T:Discord.CacheMode"/> that determines whether the object should be fetched from cache.</param>
             <param name="options">The options to be used when sending the request.</param>
             <returns>
                 A task that represents the asynchronous get operation. The task result contains a read-only collection of
@@ -2569,6 +2780,9 @@
             </returns>
         </member>
         <member name="M:Discord.Rest.RestGuild.CreateRoleAsync(System.String,System.Nullable{Discord.GuildPermissions},System.Nullable{Discord.Color},System.Boolean,Discord.RequestOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:Discord.Rest.RestGuild.CreateRoleAsync(System.String,System.Nullable{Discord.GuildPermissions},System.Nullable{Discord.Color},System.Boolean,System.Boolean,Discord.RequestOptions)">
             <summary>
                 Creates a new role with the provided name.
             </summary>
@@ -2577,6 +2791,7 @@
             <param name="color">The color of the role.</param>
             <param name="isHoisted">Whether the role is separated from others on the sidebar.</param>
             <param name="options">The options to be used when sending the request.</param>
+            <param name="isMentionable">Whether the role can be mentioned.</param>
             <returns>
                 A task that represents the asynchronous creation operation. The task result contains the newly created
                 role.
@@ -2653,12 +2868,15 @@
                 be or has been removed from this guild.
             </returns>
         </member>
-        <member name="M:Discord.Rest.RestGuild.GetAuditLogsAsync(System.Int32,Discord.RequestOptions)">
+        <member name="M:Discord.Rest.RestGuild.GetAuditLogsAsync(System.Int32,Discord.RequestOptions,System.Nullable{System.UInt64},System.Nullable{System.UInt64},System.Nullable{Discord.ActionType})">
             <summary>
                 Gets the specified number of audit log entries for this guild.
             </summary>
             <param name="limit">The number of audit log entries to fetch.</param>
             <param name="options">The options to be used when sending the request.</param>
+            <param name="beforeId">The audit log entry ID to get entries before.</param>
+            <param name="actionType">The type of actions to filter.</param>
+            <param name="userId">The user ID to filter entries for.</param>
             <returns>
                 A task that represents the asynchronous get operation. The task result contains a read-only collection
                 of the requested audit log entries.
@@ -2788,6 +3006,9 @@
             <inheritdoc />
         </member>
         <member name="M:Discord.Rest.RestGuild.Discord#IGuild#CreateRoleAsync(System.String,System.Nullable{Discord.GuildPermissions},System.Nullable{Discord.Color},System.Boolean,Discord.RequestOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:Discord.Rest.RestGuild.Discord#IGuild#CreateRoleAsync(System.String,System.Nullable{Discord.GuildPermissions},System.Nullable{Discord.Color},System.Boolean,System.Boolean,Discord.RequestOptions)">
             <inheritdoc />
         </member>
         <member name="M:Discord.Rest.RestGuild.Discord#IGuild#AddGuildUserAsync(System.UInt64,System.String,System.Action{Discord.AddGuildUserProperties},Discord.RequestOptions)">
@@ -2962,6 +3183,16 @@
         <member name="P:Discord.Rest.RestInviteMetadata.Discord#IInviteMetadata#Inviter">
             <inheritdoc />
         </member>
+        <member name="F:Discord.Rest.MessageHelper.InlineCodeRegex">
+            <summary>
+            Regex used to check if some text is formatted as inline code.
+            </summary>
+        </member>
+        <member name="F:Discord.Rest.MessageHelper.BlockCodeRegex">
+            <summary>
+            Regex used to check if some text is formatted as a code block.
+            </summary>
+        </member>
         <member name="M:Discord.Rest.MessageHelper.ModifyAsync(Discord.IMessage,Discord.Rest.BaseDiscordClient,System.Action{Discord.MessageProperties},Discord.RequestOptions)">
             <exception cref="T:System.InvalidOperationException">Only the author of a message may modify the message.</exception>
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
@@ -2992,6 +3223,9 @@
             <inheritdoc />
         </member>
         <member name="P:Discord.Rest.RestMessage.IsPinned">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.Rest.RestMessage.IsSuppressed">
             <inheritdoc />
         </member>
         <member name="P:Discord.Rest.RestMessage.EditedTimestamp">
@@ -3030,6 +3264,9 @@
         <member name="P:Discord.Rest.RestMessage.Application">
             <inheritdoc />
         </member>
+        <member name="P:Discord.Rest.RestMessage.Reference">
+            <inheritdoc />
+        </member>
         <member name="M:Discord.Rest.RestMessage.UpdateAsync(Discord.RequestOptions)">
             <inheritdoc />
         </member>
@@ -3054,6 +3291,24 @@
             <inheritdoc />
         </member>
         <member name="P:Discord.Rest.RestMessage.Discord#IMessage#MentionedUserIds">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.Rest.RestMessage.Reactions">
+            <inheritdoc />
+        </member>
+        <member name="M:Discord.Rest.RestMessage.AddReactionAsync(Discord.IEmote,Discord.RequestOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:Discord.Rest.RestMessage.RemoveReactionAsync(Discord.IEmote,Discord.IUser,Discord.RequestOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:Discord.Rest.RestMessage.RemoveReactionAsync(Discord.IEmote,System.UInt64,Discord.RequestOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:Discord.Rest.RestMessage.RemoveAllReactionsAsync(Discord.RequestOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:Discord.Rest.RestMessage.GetReactionUsersAsync(Discord.IEmote,System.Int32,Discord.RequestOptions)">
             <inheritdoc />
         </member>
         <member name="T:Discord.Rest.RestReaction">
@@ -3093,6 +3348,9 @@
         <member name="P:Discord.Rest.RestUserMessage.IsPinned">
             <inheritdoc />
         </member>
+        <member name="P:Discord.Rest.RestUserMessage.IsSuppressed">
+            <inheritdoc />
+        </member>
         <member name="P:Discord.Rest.RestUserMessage.EditedTimestamp">
             <inheritdoc />
         </member>
@@ -3114,28 +3372,16 @@
         <member name="P:Discord.Rest.RestUserMessage.Tags">
             <inheritdoc />
         </member>
-        <member name="P:Discord.Rest.RestUserMessage.Reactions">
-            <inheritdoc />
-        </member>
         <member name="M:Discord.Rest.RestUserMessage.ModifyAsync(System.Action{Discord.MessageProperties},Discord.RequestOptions)">
-            <inheritdoc />
-        </member>
-        <member name="M:Discord.Rest.RestUserMessage.AddReactionAsync(Discord.IEmote,Discord.RequestOptions)">
-            <inheritdoc />
-        </member>
-        <member name="M:Discord.Rest.RestUserMessage.RemoveReactionAsync(Discord.IEmote,Discord.IUser,Discord.RequestOptions)">
-            <inheritdoc />
-        </member>
-        <member name="M:Discord.Rest.RestUserMessage.RemoveAllReactionsAsync(Discord.RequestOptions)">
-            <inheritdoc />
-        </member>
-        <member name="M:Discord.Rest.RestUserMessage.GetReactionUsersAsync(Discord.IEmote,System.Int32,Discord.RequestOptions)">
             <inheritdoc />
         </member>
         <member name="M:Discord.Rest.RestUserMessage.PinAsync(Discord.RequestOptions)">
             <inheritdoc />
         </member>
         <member name="M:Discord.Rest.RestUserMessage.UnpinAsync(Discord.RequestOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:Discord.Rest.RestUserMessage.ModifySuppressionAsync(System.Boolean,Discord.RequestOptions)">
             <inheritdoc />
         </member>
         <member name="M:Discord.Rest.RestUserMessage.Resolve(Discord.TagHandling,Discord.TagHandling,Discord.TagHandling,Discord.TagHandling,Discord.TagHandling)">
@@ -3284,6 +3530,9 @@
         <member name="P:Discord.Rest.RestGroupUser.Discord#IVoiceState#VoiceSessionId">
             <inheritdoc />
         </member>
+        <member name="P:Discord.Rest.RestGroupUser.Discord#IVoiceState#IsStreaming">
+            <inheritdoc />
+        </member>
         <member name="T:Discord.Rest.RestGuildUser">
             <summary>
                 Represents a REST-based guild user.
@@ -3296,6 +3545,9 @@
             <inheritdoc />
         </member>
         <member name="P:Discord.Rest.RestGuildUser.IsMuted">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.Rest.RestGuildUser.PremiumSince">
             <inheritdoc />
         </member>
         <member name="P:Discord.Rest.RestGuildUser.GuildId">
@@ -3354,6 +3606,9 @@
         <member name="P:Discord.Rest.RestGuildUser.Discord#IVoiceState#VoiceSessionId">
             <inheritdoc />
         </member>
+        <member name="P:Discord.Rest.RestGuildUser.Discord#IVoiceState#IsStreaming">
+            <inheritdoc />
+        </member>
         <member name="T:Discord.Rest.RestSelfUser">
             <summary>
                 Represents the logged-in REST-based user.
@@ -3366,6 +3621,15 @@
             <inheritdoc />
         </member>
         <member name="P:Discord.Rest.RestSelfUser.IsMfaEnabled">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.Rest.RestSelfUser.Flags">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.Rest.RestSelfUser.PremiumType">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.Rest.RestSelfUser.Locale">
             <inheritdoc />
         </member>
         <member name="M:Discord.Rest.RestSelfUser.Update(Discord.API.User)">
@@ -3411,6 +3675,9 @@
         <member name="P:Discord.Rest.RestUser.Status">
             <inheritdoc />
         </member>
+        <member name="P:Discord.Rest.RestUser.ActiveClients">
+            <inheritdoc />
+        </member>
         <member name="P:Discord.Rest.RestUser.IsWebhook">
             <inheritdoc />
         </member>
@@ -3444,6 +3711,9 @@
             <inheritdoc />
         </member>
         <member name="P:Discord.Rest.RestWebhookUser.WebhookId">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.Rest.RestWebhookUser.PremiumSince">
             <inheritdoc />
         </member>
         <member name="P:Discord.Rest.RestWebhookUser.IsWebhook">
@@ -3507,6 +3777,9 @@
             <inheritdoc />
         </member>
         <member name="P:Discord.Rest.RestWebhookUser.Discord#IVoiceState#VoiceSessionId">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.Rest.RestWebhookUser.Discord#IVoiceState#IsStreaming">
             <inheritdoc />
         </member>
         <member name="P:Discord.Rest.RestWebhook.ChannelId">

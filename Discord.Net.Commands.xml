@@ -131,7 +131,7 @@
         </member>
         <member name="T:Discord.Commands.NamedArgumentTypeAttribute">
             <summary>
-            Instructs the command system to treat command paramters of this type
+            Instructs the command system to treat command parameters of this type
             as a collection of named arguments matching to its properties.
             </summary>
         </member>
@@ -1352,6 +1352,15 @@
         </member>
         <member name="P:Discord.Commands.ParseResult.ErrorReason">
             <inheritdoc/>
+        </member>
+        <member name="P:Discord.Commands.ParseResult.ErrorParameter">
+            <summary>
+                Provides information about the parameter that caused the parsing error.
+            </summary>
+            <returns>
+                A <see cref="T:Discord.Commands.ParameterInfo" /> indicating the parameter info of the error that may have occurred during parsing; 
+                <c>null</c> if the parsing was successful or the parsing error is not specific to a single parameter.
+            </returns>
         </member>
         <member name="P:Discord.Commands.ParseResult.IsSuccess">
             <inheritdoc/>
