@@ -3,7 +3,7 @@
   <asmv1:assemblyIdentity name="Discord_Bot.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="Discord_Bot" version="0.10.6.1" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="Discord_Bot" version="0.10.7.0" language="neutral" processorArchitecture="msil" />
     <commandLine file="Discord_Bot.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -126,14 +126,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Discord_Bot.exe" size="187872">
-      <assemblyIdentity name="Discord_Bot" version="0.10.6.1" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Discord_Bot.exe" size="194016">
+      <assemblyIdentity name="Discord_Bot" version="0.10.7.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>WFfhUyXmSYoFGMJZS5JzcarOM1IzmPxU9NIw4ZO8wNg=</dsig:DigestValue>
+        <dsig:DigestValue>Pf4Jm/l17M8AIArl2gC9NXfvcbO3BNCqmI7oLdY5niY=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="InfluxDB.LineProtocol.dll" size="19456">
+      <assemblyIdentity name="InfluxDB.LineProtocol" version="1.1.1.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>Ji9bajy1schhw1CkHQ+/88bjPvbxEy2nEYF1CHKwvBs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1433,13 +1445,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="Discord_Bot.exe.config" size="19578">
+  <file name="Discord_Bot.exe.config" size="19402">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>Xngib+xHatR4H26CPXczFVMVuxKDhZYK5x3jF9XzSE8=</dsig:DigestValue>
+      <dsig:DigestValue>K0uSPLS0LoJ75NH8H7HYUb5xglPYCnnglrUWb4Wa6fw=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>
