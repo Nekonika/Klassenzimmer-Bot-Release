@@ -73,7 +73,7 @@
   "ERRORWHILEDISCONNECTING_ERROR": "Konnte den Benutzer nicht aus dem Channel werfen:\\r\\n{0}",
   "ERRORWHILEDISCONNECTING_ID_CHANNELNAME": "Beim entfernen der Nutzers <@{0}> aus '{1}' ist ein Fehler aufgetreten!",
   "USERKICKED_USER_CREATEDAGO_TOYOUNG": "Der Nutzer **{0}** wurde gekickt!\r\nDer Account wurde vor `{1}` Stunden erstellt und\r\nist damit `{2}` Stunden zu frisch!",
-  "SWITCHCHANNEL_USERID_FROMCH_TOCH": "Benutzer <@{0}> ging von channel {1} in channel {2}.",
+  "SWITCHCHANNEL_USER_FROMCH_TOCH": "Benutzer {0} ging von channel {1} in channel {2}.",
   "SENDINGWELCOMEMESSAGE": "Sende Willkommensnachricht!",
   "EMBEDKEYNOTFOUND_KEY": "Der Schlüssel **{0}** konnte nicht in deinem Wörterbuch gefunden werden!",
   "PINGFAILED_EXCEPTION": "Beim errechnen der Pings ist ein Problem aufgetreten:\\r\\n{0}",
