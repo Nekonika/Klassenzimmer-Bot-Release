@@ -80,7 +80,7 @@
             <exception cref="T:System.InvalidOperationException">The client must be logged in before connecting.</exception>
             <exception cref="T:System.NotSupportedException">This client is not configured with WebSocket support.</exception>
         </member>
-        <member name="M:Discord.API.DiscordSocketApiClient.DisconnectInternalAsync">
+        <member name="M:Discord.API.DiscordSocketApiClient.DisconnectInternalAsync(System.Exception)">
             <exception cref="T:System.NotSupportedException">This client is not configured with WebSocket support.</exception>
         </member>
         <member name="M:Discord.Audio.AudioClient.#ctor(Discord.WebSocket.SocketGuild,System.Int32,System.UInt64)">
@@ -621,6 +621,24 @@
         <member name="E:Discord.WebSocket.BaseSocketClient.ReactionsCleared">
             <summary> Fired when all reactions to a message are cleared. </summary>
         </member>
+        <member name="E:Discord.WebSocket.BaseSocketClient.ReactionsRemovedForEmote">
+            <summary>
+                Fired when all reactions to a message with a specific emote are removed.
+            </summary>
+            <remarks>
+                <para>
+                    This event is fired when all reactions to a message with a specific emote are removed.
+                    The event handler must return a <see cref="T:System.Threading.Tasks.Task"/> and accept a <see cref="T:Discord.WebSocket.ISocketMessageChannel"/> and
+                    a <see cref="T:Discord.IEmote"/> as its parameters.
+                </para>
+                <para>
+                    The channel where this message was sent will be passed into the <see cref="T:Discord.WebSocket.ISocketMessageChannel"/> parameter.
+                </para>
+                <para>
+                    The emoji that all reactions had and were removed will be passed into the <see cref="T:Discord.IEmote"/> parameter.
+                </para>
+            </remarks>
+        </member>
         <member name="E:Discord.WebSocket.BaseSocketClient.RoleCreated">
             <summary> Fired when a role is created. </summary>
         </member>
@@ -903,11 +921,26 @@
         <member name="M:Discord.WebSocket.DiscordSocketClient.GetChannel(System.UInt64)">
             <inheritdoc />
         </member>
+        <member name="M:Discord.WebSocket.DiscordSocketClient.PurgeChannelCache">
+            <summary>
+                Clears all cached channels from the client.
+            </summary>
+        </member>
+        <member name="M:Discord.WebSocket.DiscordSocketClient.PurgeDMChannelCache">
+            <summary>
+                Clears cached DM channels from the client.
+            </summary>
+        </member>
         <member name="M:Discord.WebSocket.DiscordSocketClient.GetUser(System.UInt64)">
             <inheritdoc />
         </member>
         <member name="M:Discord.WebSocket.DiscordSocketClient.GetUser(System.String,System.String)">
             <inheritdoc />
+        </member>
+        <member name="M:Discord.WebSocket.DiscordSocketClient.PurgeUserCache">
+            <summary>
+                Clears cached users from the client.
+            </summary>
         </member>
         <member name="M:Discord.WebSocket.DiscordSocketClient.GetVoiceRegion(System.String)">
             <inheritdoc />
@@ -1002,7 +1035,13 @@
             <summary> Fired when disconnected to the Discord gateway. </summary>
         </member>
         <member name="E:Discord.WebSocket.DiscordSocketClient.Ready">
-            <summary> Fired when guild data has finished downloading. </summary>
+            <summary>
+                Fired when guild data has finished downloading.
+            </summary>
+            <remarks>
+                It is possible that some guilds might be unsynced if <see cref="P:Discord.WebSocket.DiscordSocketConfig.MaxWaitBetweenGuildAvailablesBeforeReady" />
+                was not long enough to receive all GUILD_AVAILABLEs before READY.
+            </remarks>
         </member>
         <member name="E:Discord.WebSocket.DiscordSocketClient.LatencyUpdated">
             <summary> Fired when a heartbeat is received from the Discord gateway. </summary>
@@ -1129,8 +1168,25 @@
         <member name="P:Discord.WebSocket.DiscordSocketConfig.GuildSubscriptions">
             <summary>
                 Gets or sets enabling dispatching of guild subscription events e.g. presence and typing events.
+                This is not used if <see cref="P:Discord.WebSocket.DiscordSocketConfig.GatewayIntents"/> are provided.
             </summary>
         </member>
+        <member name="P:Discord.WebSocket.DiscordSocketConfig.MaxWaitBetweenGuildAvailablesBeforeReady">
+             <summary>
+                 Gets or sets the maximum wait time in milliseconds between GUILD_AVAILABLE events before firing READY.
+            
+                 If zero, READY will fire as soon as it is received and all guilds will be unavailable.
+             </summary>
+             <remarks>
+                 <para>This property is measured in milliseconds, negative values will throw an exception.</para>
+                 <para>If a guild is not received before READY, it will be unavailable.</para>
+             </remarks>
+             <returns>
+                 The maximum wait time in milliseconds between GUILD_AVAILABLE events before firing READY.
+             </returns>
+             <exception cref="T:System.ArgumentException">Value must be at least 0.</exception>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:Discord.WebSocket.DiscordSocketConfig.GatewayIntents" -->
         <member name="M:Discord.WebSocket.DiscordSocketConfig.#ctor">
             <summary>
                 Initializes a default configuration.
@@ -1154,29 +1210,33 @@
                 A read-only collection of WebSocket-based messages.
             </returns>
         </member>
-        <member name="M:Discord.WebSocket.ISocketMessageChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions)">
+        <member name="M:Discord.WebSocket.ISocketMessageChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)">
             <summary>
                 Sends a message to this message channel.
             </summary>
             <remarks>
-                This method follows the same behavior as described in <see cref="M:Discord.IMessageChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions)"/>.
+                This method follows the same behavior as described in <see cref="M:Discord.IMessageChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)"/>.
                 Please visit its documentation for more details on this method.
             </remarks>
             <param name="text">The message to be sent.</param>
             <param name="isTTS">Determines whether the message should be read aloud by Discord or not.</param>
             <param name="embed">The <see cref="F:Discord.EmbedType.Rich"/> <see cref="T:Discord.Embed"/> to be sent.</param>
             <param name="options">The options to be used when sending the request.</param>
+            <param name="allowedMentions">
+                Specifies if notifications are sent for mentioned users and roles in the message <paramref name="text"/>.
+                If <c>null</c>, all mentioned roles and users will be notified.
+            </param>
             <returns>
                 A task that represents an asynchronous send operation for delivering the message. The task result
                 contains the sent message.
             </returns>
         </member>
-        <member name="M:Discord.WebSocket.ISocketMessageChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.WebSocket.ISocketMessageChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <summary>
                 Sends a file to this message channel with an optional caption.
             </summary>
             <remarks>
-                This method follows the same behavior as described in <see cref="M:Discord.IMessageChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)"/>.
+                This method follows the same behavior as described in <see cref="M:Discord.IMessageChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)"/>.
                 Please visit its documentation for more details on this method.
             </remarks>
             <param name="filePath">The file path of the file.</param>
@@ -1185,17 +1245,21 @@
             <param name="embed">The <see cref="F:Discord.EmbedType.Rich" /> <see cref="T:Discord.Embed" /> to be sent.</param>
             <param name="options">The options to be used when sending the request.</param>
             <param name="isSpoiler">Whether the message attachment should be hidden as a spoiler.</param>
+            <param name="allowedMentions">
+                Specifies if notifications are sent for mentioned users and roles in the message <paramref name="text"/>.
+                If <c>null</c>, all mentioned roles and users will be notified.
+            </param>
             <returns>
                 A task that represents an asynchronous send operation for delivering the message. The task result
                 contains the sent message.
             </returns>
         </member>
-        <member name="M:Discord.WebSocket.ISocketMessageChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.WebSocket.ISocketMessageChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <summary>
                 Sends a file to this message channel with an optional caption.
             </summary>
             <remarks>
-                This method follows the same behavior as described in <see cref="M:Discord.IMessageChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)"/>.
+                This method follows the same behavior as described in <see cref="M:Discord.IMessageChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)"/>.
                 Please visit its documentation for more details on this method.
             </remarks>
             <param name="stream">The <see cref="T:System.IO.Stream" /> of the file to be sent.</param>
@@ -1205,6 +1269,10 @@
             <param name="embed">The <see cref="F:Discord.EmbedType.Rich"/> <see cref="T:Discord.Embed"/> to be sent.</param>
             <param name="options">The options to be used when sending the request.</param>
             <param name="isSpoiler">Whether the message attachment should be hidden as a spoiler.</param>
+            <param name="allowedMentions">
+                Specifies if notifications are sent for mentioned users and roles in the message <paramref name="text"/>.
+                If <c>null</c>, all mentioned roles and users will be notified.
+            </param>
             <returns>
                 A task that represents an asynchronous send operation for delivering the message. The task result
                 contains the sent message.
@@ -1487,14 +1555,14 @@
         <member name="M:Discord.WebSocket.SocketDMChannel.GetPinnedMessagesAsync(Discord.RequestOptions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.WebSocket.SocketDMChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions)">
+        <member name="M:Discord.WebSocket.SocketDMChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)">
             <inheritdoc />
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
-        <member name="M:Discord.WebSocket.SocketDMChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.WebSocket.SocketDMChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.WebSocket.SocketDMChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.WebSocket.SocketDMChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <inheritdoc />
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
@@ -1554,13 +1622,13 @@
         <member name="M:Discord.WebSocket.SocketDMChannel.Discord#IMessageChannel#GetPinnedMessagesAsync(Discord.RequestOptions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.WebSocket.SocketDMChannel.Discord#IMessageChannel#SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.WebSocket.SocketDMChannel.Discord#IMessageChannel#SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.WebSocket.SocketDMChannel.Discord#IMessageChannel#SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.WebSocket.SocketDMChannel.Discord#IMessageChannel#SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.WebSocket.SocketDMChannel.Discord#IMessageChannel#SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions)">
+        <member name="M:Discord.WebSocket.SocketDMChannel.Discord#IMessageChannel#SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)">
             <inheritdoc />
         </member>
         <member name="P:Discord.WebSocket.SocketDMChannel.Discord#IChannel#Name">
@@ -1665,14 +1733,14 @@
         <member name="M:Discord.WebSocket.SocketGroupChannel.GetPinnedMessagesAsync(Discord.RequestOptions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.WebSocket.SocketGroupChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions)">
+        <member name="M:Discord.WebSocket.SocketGroupChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)">
             <inheritdoc />
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
-        <member name="M:Discord.WebSocket.SocketGroupChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.WebSocket.SocketGroupChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.WebSocket.SocketGroupChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.WebSocket.SocketGroupChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <inheritdoc />
         </member>
         <member name="M:Discord.WebSocket.SocketGroupChannel.DeleteMessageAsync(System.UInt64,Discord.RequestOptions)">
@@ -1728,13 +1796,13 @@
         <member name="M:Discord.WebSocket.SocketGroupChannel.Discord#IMessageChannel#GetPinnedMessagesAsync(Discord.RequestOptions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.WebSocket.SocketGroupChannel.Discord#IMessageChannel#SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.WebSocket.SocketGroupChannel.Discord#IMessageChannel#SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.WebSocket.SocketGroupChannel.Discord#IMessageChannel#SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.WebSocket.SocketGroupChannel.Discord#IMessageChannel#SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.WebSocket.SocketGroupChannel.Discord#IMessageChannel#SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions)">
+        <member name="M:Discord.WebSocket.SocketGroupChannel.Discord#IMessageChannel#SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)">
             <inheritdoc />
         </member>
         <member name="M:Discord.WebSocket.SocketGroupChannel.Discord#IAudioChannel#ConnectAsync(System.Boolean,System.Boolean,System.Boolean)">
@@ -2030,14 +2098,14 @@
         <member name="M:Discord.WebSocket.SocketTextChannel.GetPinnedMessagesAsync(Discord.RequestOptions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.WebSocket.SocketTextChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions)">
+        <member name="M:Discord.WebSocket.SocketTextChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)">
             <inheritdoc />
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
-        <member name="M:Discord.WebSocket.SocketTextChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.WebSocket.SocketTextChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.WebSocket.SocketTextChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.WebSocket.SocketTextChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <inheritdoc />
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
@@ -2131,13 +2199,13 @@
         <member name="M:Discord.WebSocket.SocketTextChannel.Discord#IMessageChannel#GetPinnedMessagesAsync(Discord.RequestOptions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.WebSocket.SocketTextChannel.Discord#IMessageChannel#SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.WebSocket.SocketTextChannel.Discord#IMessageChannel#SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.WebSocket.SocketTextChannel.Discord#IMessageChannel#SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.WebSocket.SocketTextChannel.Discord#IMessageChannel#SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.WebSocket.SocketTextChannel.Discord#IMessageChannel#SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions)">
+        <member name="M:Discord.WebSocket.SocketTextChannel.Discord#IMessageChannel#SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)">
             <inheritdoc />
         </member>
         <member name="M:Discord.WebSocket.SocketTextChannel.Discord#INestedChannel#GetCategoryAsync(Discord.CacheMode,Discord.RequestOptions)">
@@ -2671,8 +2739,38 @@
         <member name="M:Discord.WebSocket.SocketGuild.PruneUsersAsync(System.Int32,System.Boolean,Discord.RequestOptions)">
             <inheritdoc />
         </member>
+        <member name="M:Discord.WebSocket.SocketGuild.GetUsersAsync(Discord.RequestOptions)">
+            <summary>
+                Gets a collection of all users in this guild.
+            </summary>
+            <remarks>
+                <para>This method retrieves all users found within this guild throught REST.</para>
+                <para>Users returned by this method are not cached.</para>
+            </remarks>
+            <param name="options">The options to be used when sending the request.</param>
+            <returns>
+                A task that represents the asynchronous get operation. The task result contains a collection of guild
+                users found within this guild.
+            </returns>
+        </member>
         <member name="M:Discord.WebSocket.SocketGuild.DownloadUsersAsync">
             <inheritdoc />
+        </member>
+        <member name="M:Discord.WebSocket.SocketGuild.SearchUsersAsync(System.String,System.Int32,Discord.RequestOptions)">
+            <summary>
+                Gets a collection of users in this guild that the name or nickname starts with the
+                provided <see cref="T:System.String"/> at <paramref name="query"/>.
+            </summary>
+            <remarks>
+                The <paramref name="limit"/> can not be higher than <see cref="F:Discord.DiscordConfig.MaxUsersPerBatch"/>.
+            </remarks>
+            <param name="query">The partial name or nickname to search.</param>
+            <param name="limit">The maximum number of users to be gotten.</param>
+            <param name="options">The options to be used when sending the request.</param>
+            <returns>
+                A task that represents the asynchronous get operation. The task result contains a collection of guild
+                users that the name or nickname starts with the provided <see cref="T:System.String"/> at <paramref name="query"/>.
+            </returns>
         </member>
         <member name="M:Discord.WebSocket.SocketGuild.GetAuditLogsAsync(System.Int32,Discord.RequestOptions,System.Nullable{System.UInt64},System.Nullable{System.UInt64},System.Nullable{Discord.ActionType})">
             <summary>
@@ -2844,6 +2942,9 @@
         <member name="M:Discord.WebSocket.SocketGuild.Discord#IGuild#GetOwnerAsync(Discord.CacheMode,Discord.RequestOptions)">
             <inheritdoc />
         </member>
+        <member name="M:Discord.WebSocket.SocketGuild.Discord#IGuild#SearchUsersAsync(System.String,System.Int32,Discord.CacheMode,Discord.RequestOptions)">
+            <inheritdoc />
+        </member>
         <member name="M:Discord.WebSocket.SocketGuild.Discord#IGuild#GetAuditLogsAsync(System.Int32,Discord.CacheMode,Discord.RequestOptions,System.Nullable{System.UInt64},System.Nullable{System.UInt64},System.Nullable{Discord.ActionType})">
             <inheritdoc />
         </member>
@@ -3003,6 +3104,9 @@
         <member name="M:Discord.WebSocket.SocketMessage.RemoveAllReactionsAsync(Discord.RequestOptions)">
             <inheritdoc />
         </member>
+        <member name="M:Discord.WebSocket.SocketMessage.RemoveAllReactionsForEmoteAsync(Discord.IEmote,Discord.RequestOptions)">
+            <inheritdoc />
+        </member>
         <member name="M:Discord.WebSocket.SocketMessage.GetReactionUsersAsync(Discord.IEmote,System.Int32,Discord.RequestOptions)">
             <inheritdoc />
         </member>
@@ -3138,6 +3242,10 @@
         </member>
         <member name="M:Discord.WebSocket.SocketUserMessage.Resolve(Discord.TagHandling,Discord.TagHandling,Discord.TagHandling,Discord.TagHandling,Discord.TagHandling)">
             <inheritdoc />
+        </member>
+        <member name="M:Discord.WebSocket.SocketUserMessage.CrosspostAsync(Discord.RequestOptions)">
+            <inheritdoc />
+            <exception cref="T:System.InvalidOperationException">This operation may only be called on a <see cref="T:Discord.WebSocket.SocketNewsChannel"/> channel.</exception>
         </member>
         <member name="T:Discord.WebSocket.SocketRole">
             <summary>
@@ -3533,6 +3641,9 @@
             <summary>
                 Gets mutual guilds shared with this user.
             </summary>
+            <remarks>
+                This property will only include guilds in the same <see cref="T:Discord.WebSocket.DiscordSocketClient"/>.
+            </remarks>
         </member>
         <member name="M:Discord.WebSocket.SocketUser.GetOrCreateDMChannelAsync(Discord.RequestOptions)">
             <inheritdoc />
@@ -3727,6 +3838,21 @@
             <returns>
             	A voice connection token.
             </returns>
+        </member>
+        <member name="T:Discord.WebSocket.GatewayReconnectException">
+            <summary>
+            An exception thrown when the gateway client has been requested to
+            reconnect.
+            </summary>
+        </member>
+        <member name="M:Discord.WebSocket.GatewayReconnectException.#ctor(System.String)">
+            <summary>
+            Creates a new instance of the
+            <see cref="T:Discord.WebSocket.GatewayReconnectException"/> type.
+            </summary>
+            <param name="message">
+            The reason why the gateway has been requested to reconnect.
+            </param>
         </member>
         <member name="T:Discord.Commands.ShardedCommandContext">
             <summary> The sharded variant of <see cref="T:Discord.Commands.ICommandContext"/>, which may contain the client, user, guild, channel, and message. </summary>

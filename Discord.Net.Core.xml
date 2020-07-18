@@ -897,6 +897,21 @@
                 A guild member's role collection was updated.
             </summary>
         </member>
+        <member name="F:Discord.ActionType.MemberMoved">
+            <summary>
+                A guild member moved to a voice channel.
+            </summary>
+        </member>
+        <member name="F:Discord.ActionType.MemberDisconnected">
+            <summary>
+                A guild member disconnected from a voice channel.
+            </summary>
+        </member>
+        <member name="F:Discord.ActionType.BotAdded">
+            <summary>
+                A bot was added to this guild.
+            </summary>
+        </member>
         <member name="F:Discord.ActionType.RoleCreated">
             <summary>
                 A role was created in this guild.
@@ -960,6 +975,21 @@
         <member name="F:Discord.ActionType.MessageDeleted">
             <summary>
                 A message was deleted from this guild.
+            </summary>
+        </member>
+        <member name="F:Discord.ActionType.MessageBulkDeleted">
+            <summary>
+                Multiple messages were deleted from this guild.
+            </summary>
+        </member>
+        <member name="F:Discord.ActionType.MessagePinned">
+            <summary>
+                A message was pinned from this guild.
+            </summary>
+        </member>
+        <member name="F:Discord.ActionType.MessageUnpinned">
+            <summary>
+                A message was unpinned from this guild.
             </summary>
         </member>
         <member name="T:Discord.IAuditLogData">
@@ -1379,7 +1409,7 @@
                 Represents a generic channel that can send and receive messages.
             </summary>
         </member>
-        <member name="M:Discord.IMessageChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions)">
+        <member name="M:Discord.IMessageChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)">
             <summary>
                 Sends a message to this message channel.
             </summary>
@@ -1393,12 +1423,16 @@
             <param name="isTTS">Determines whether the message should be read aloud by Discord or not.</param>
             <param name="embed">The <see cref="F:Discord.EmbedType.Rich"/> <see cref="T:Discord.Embed"/> to be sent.</param>
             <param name="options">The options to be used when sending the request.</param>
+            <param name="allowedMentions">
+                Specifies if notifications are sent for mentioned users and roles in the message <paramref name="text"/>.
+                If <c>null</c>, all mentioned roles and users will be notified.
+            </param>
             <returns>
                 A task that represents an asynchronous send operation for delivering the message. The task result
                 contains the sent message.
             </returns>
         </member>
-        <member name="M:Discord.IMessageChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.IMessageChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <summary>
                 Sends a file to this message channel with an optional caption.
             </summary>
@@ -1426,12 +1460,16 @@
             <param name="embed">The <see cref="F:Discord.EmbedType.Rich" /> <see cref="T:Discord.Embed" /> to be sent.</param>
             <param name="options">The options to be used when sending the request.</param>
             <param name="isSpoiler">Whether the message attachment should be hidden as a spoiler.</param>
+            <param name="allowedMentions">
+                Specifies if notifications are sent for mentioned users and roles in the message <paramref name="text"/>.
+                If <c>null</c>, all mentioned roles and users will be notified.
+            </param>
             <returns>
                 A task that represents an asynchronous send operation for delivering the message. The task result
                 contains the sent message.
             </returns>
         </member>
-        <member name="M:Discord.IMessageChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.IMessageChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <summary>
                 Sends a file to this message channel with an optional caption.
             </summary>
@@ -1456,6 +1494,10 @@
             <param name="embed">The <see cref="F:Discord.EmbedType.Rich"/> <see cref="T:Discord.Embed"/> to be sent.</param>
             <param name="options">The options to be used when sending the request.</param>
             <param name="isSpoiler">Whether the message attachment should be hidden as a spoiler.</param>
+            <param name="allowedMentions">
+                Specifies if notifications are sent for mentioned users and roles in the message <paramref name="text"/>.
+                If <c>null</c>, all mentioned roles and users will be notified.
+            </param>
             <returns>
                 A task that represents an asynchronous send operation for delivering the message. The task result
                 contains the sent message.
@@ -1678,8 +1720,8 @@
                 Creates a new invite to this channel.
             </summary>
             <example>
-                The following example creates a new invite to this channel; the invite lasts for 12 hours and can only
-                be used 3 times throughout its lifespan.
+                <para>The following example creates a new invite to this channel; the invite lasts for 12 hours and can only
+                be used 3 times throughout its lifespan.</para>
                 <code language="cs">
                 await guildChannel.CreateInviteAsync(maxAge: 43200, maxUses: 3);
                 </code>
@@ -1699,8 +1741,8 @@
                 Gets a collection of all invites to this channel.
             </summary>B
             <example>
-                The following example gets all of the invites that have been created in this channel and selects the
-                most used invite.
+                <para>The following example gets all of the invites that have been created in this channel and selects the
+                most used invite.</para>
                 <code language="cs">
                 var invites = await channel.GetInvitesAsync();
                 if (invites.Count == 0) return;
@@ -1761,7 +1803,7 @@
                 Bulk-deletes multiple messages.
             </summary>
             <example>
-                The following example gets 250 messages from the channel and deletes them.
+                <para>The following example gets 250 messages from the channel and deletes them.</para>
                 <code language="cs">
                 var messages = await textChannel.GetMessagesAsync(250).FlattenAsync();
                 await textChannel.DeleteMessagesAsync(messages);
@@ -2882,7 +2924,7 @@
                 Creates a new text channel in this guild.
             </summary>
             <example>
-                The following example creates a new text channel under an existing category named <c>Wumpus</c> with a set topic.
+                <para>The following example creates a new text channel under an existing category named <c>Wumpus</c> with a set topic.</para>
                 <code language="cs" region="CreateTextChannelAsync"
                       source="..\..\..\Discord.Net.Examples\Core\Entities\Guilds\IGuild.Examples.cs"/>
             </example>
@@ -3061,6 +3103,9 @@
             <summary>
                 Downloads all users for this guild if the current list is incomplete.
             </summary>
+            <remarks>
+                This method downloads all users found within this guild throught the Gateway and caches them.
+            </remarks>
             <returns>
                 A task that represents the asynchronous download operation.
             </returns>
@@ -3084,6 +3129,23 @@
             <returns>
                 A task that represents the asynchronous prune operation. The task result contains the number of users to
                 be or has been removed from this guild.
+            </returns>
+        </member>
+        <member name="M:Discord.IGuild.SearchUsersAsync(System.String,System.Int32,Discord.CacheMode,Discord.RequestOptions)">
+            <summary>
+                Gets a collection of users in this guild that the name or nickname starts with the
+                provided <see cref="T:System.String"/> at <paramref name="query"/>.
+            </summary>
+            <remarks>
+                The <paramref name="limit"/> can not be higher than <see cref="F:Discord.DiscordConfig.MaxUsersPerBatch"/>.
+            </remarks>
+            <param name="query">The partial name or nickname to search.</param>
+            <param name="limit">The maximum number of users to be gotten.</param>
+            <param name="mode">The <see cref="T:Discord.CacheMode" /> that determines whether the object should be fetched from cache.</param>
+            <param name="options">The options to be used when sending the request.</param>
+            <returns>
+                A task that represents the asynchronous get operation. The task result contains a collection of guild
+                users that the name or nickname starts with the provided <see cref="T:System.String"/> at <paramref name="query"/>.
             </returns>
         </member>
         <member name="M:Discord.IGuild.GetAuditLogsAsync(System.Int32,Discord.CacheMode,Discord.RequestOptions,System.Nullable{System.UInt64},System.Nullable{System.UInt64},System.Nullable{Discord.ActionType})">
@@ -3732,6 +3794,88 @@
         <member name="M:Discord.IUpdateable.UpdateAsync(Discord.RequestOptions)">
             <summary>
                 Updates this object's properties with its current state.
+            </summary>
+        </member>
+        <member name="T:Discord.AllowedMentions">
+            <summary>
+                Defines which mentions and types of mentions that will notify users from the message content.
+            </summary>
+        </member>
+        <member name="P:Discord.AllowedMentions.None">
+            <summary>
+                Gets a value which indicates that no mentions in the message content should notify users.
+            </summary>
+        </member>
+        <member name="P:Discord.AllowedMentions.All">
+            <summary>
+                Gets a value which indicates that all mentions in the message content should notify users.
+            </summary>
+        </member>
+        <member name="P:Discord.AllowedMentions.AllowedTypes">
+            <summary>
+                Gets or sets the type of mentions that will be parsed from the message content.
+            </summary>
+            <remarks>
+                The <see cref="F:Discord.AllowedMentionTypes.Users"/> flag is mutually exclusive with the <see cref="P:Discord.AllowedMentions.UserIds"/>
+                property, and the <see cref="F:Discord.AllowedMentionTypes.Roles"/> flag is mutually exclusive with the
+                <see cref="P:Discord.AllowedMentions.RoleIds"/> property.
+                If <c>null</c>, only the ids specified in <see cref="P:Discord.AllowedMentions.UserIds"/> and <see cref="P:Discord.AllowedMentions.RoleIds"/> will be mentioned.
+            </remarks>
+        </member>
+        <member name="P:Discord.AllowedMentions.RoleIds">
+            <summary>
+                Gets or sets the list of all role ids that will be mentioned.
+                This property is mutually exclusive with the <see cref="F:Discord.AllowedMentionTypes.Roles"/>
+                flag of the <see cref="P:Discord.AllowedMentions.AllowedTypes"/> property. If the flag is set, the value of this property
+                must be <c>null</c> or empty.
+            </summary>
+        </member>
+        <member name="P:Discord.AllowedMentions.UserIds">
+            <summary>
+                Gets or sets the list of all user ids that will be mentioned.
+                This property is mutually exclusive with the <see cref="F:Discord.AllowedMentionTypes.Users"/>
+                flag of the <see cref="P:Discord.AllowedMentions.AllowedTypes"/> property. If the flag is set, the value of this property
+                must be <c>null</c> or empty.
+            </summary>
+        </member>
+        <member name="M:Discord.AllowedMentions.#ctor(System.Nullable{Discord.AllowedMentionTypes})">
+            <summary>
+                Initializes a new instance of the <see cref="T:Discord.AllowedMentions"/> class.
+            </summary>
+            <param name="allowedTypes">
+                The types of mentions to parse from the message content.
+                If <c>null</c>, only the ids specified in <see cref="P:Discord.AllowedMentions.UserIds"/> and <see cref="P:Discord.AllowedMentions.RoleIds"/> will be mentioned.
+            </param>
+        </member>
+        <member name="T:Discord.AllowedMentionTypes">
+            <summary>
+                Specifies the type of mentions that will be notified from the message content.
+            </summary>
+        </member>
+        <member name="F:Discord.AllowedMentionTypes.None">
+            <summary>
+                No flag is set.
+            </summary>
+            <remarks>
+                This flag is not used to control mentions.
+                <note type="warning">
+                    It will always be present and does not mean mentions will not be allowed.
+                </note>
+            </remarks>
+        </member>
+        <member name="F:Discord.AllowedMentionTypes.Roles">
+            <summary>
+                Controls role mentions.
+            </summary>
+        </member>
+        <member name="F:Discord.AllowedMentionTypes.Users">
+            <summary>
+                Controls user mentions.
+            </summary>
+        </member>
+        <member name="F:Discord.AllowedMentionTypes.Everyone">
+            <summary>
+                Controls <code>@everyone</code> and <code>@here</code> mentions.
             </summary>
         </member>
         <member name="T:Discord.Embed">
@@ -4933,7 +5077,7 @@
                 Adds a reaction to this message.
             </summary>
             <example>
-                The following example adds the reaction, <c>💕</c>, to the message.
+                <para>The following example adds the reaction, <c>💕</c>, to the message.</para>
                 <code language="cs">
                 await msg.AddReactionAsync(new Emoji("\U0001f495"));
                 </code>
@@ -4950,7 +5094,7 @@
                 Removes a reaction from message.
             </summary>
             <example>
-                The following example removes the reaction, <c>💕</c>, added by the message author from the message.
+                <para>The following example removes the reaction, <c>💕</c>, added by the message author from the message.</para>
                 <code language="cs">
                 await msg.RemoveReactionAsync(new Emoji("\U0001f495"), msg.Author);
                 </code>
@@ -4968,7 +5112,7 @@
                 Removes a reaction from message.
             </summary>
             <example>
-                The following example removes the reaction, <c>💕</c>, added by the user with ID 84291986575613952 from the message.
+                <para>The following example removes the reaction, <c>💕</c>, added by the user with ID 84291986575613952 from the message.</para>
                 <code language="cs">
                 await msg.RemoveReactionAsync(new Emoji("\U0001f495"), 84291986575613952);
                 </code>
@@ -4990,12 +5134,39 @@
                 A task that represents the asynchronous removal operation.
             </returns>
         </member>
+        <member name="M:Discord.IMessage.RemoveAllReactionsForEmoteAsync(Discord.IEmote,Discord.RequestOptions)">
+            <summary>
+                Removes all reactions with a specific emoji from this message.
+            </summary>
+            <param name="emote">The emoji used to react to this message.</param>
+            <param name="options">The options to be used when sending the request.</param>
+            <returns>
+                A task that represents the asynchronous removal operation.
+            </returns>
+        </member>
         <member name="M:Discord.IMessage.GetReactionUsersAsync(Discord.IEmote,System.Int32,Discord.RequestOptions)">
             <summary>
                 Gets all users that reacted to a message with a given emote.
             </summary>
+            <remarks>
+                <note type="important">
+                    The returned collection is an asynchronous enumerable object; one must call 
+                    <see cref="M:Discord.AsyncEnumerableExtensions.FlattenAsync``1(System.Collections.Generic.IAsyncEnumerable{System.Collections.Generic.IEnumerable{``0}})"/> to access the users as a
+                    collection.
+                </note>
+                <note type="warning">
+                    Do not fetch too many users at once! This may cause unwanted preemptive rate limit or even actual
+                    rate limit, causing your bot to freeze!
+                </note>
+                This method will attempt to fetch the number of reactions specified under <paramref name="limit"/>. 
+                The library will attempt to split up the requests according to your <paramref name="limit"/> and 
+                <see cref="F:Discord.DiscordConfig.MaxUserReactionsPerBatch"/>. In other words, should the user request 500 reactions,
+                and the <see cref="F:Discord.DiscordConfig.MaxUserReactionsPerBatch"/> constant is <c>100</c>, the request will
+                be split into 5 individual requests; thus returning 5 individual asynchronous responses, hence the need
+                of flattening.
+            </remarks>
             <example>
-                The following example gets the users that have reacted with the emoji <c>💕</c> to the message.
+                <para>The following example gets the users that have reacted with the emoji <c>💕</c> to the message.</para>
                 <code language="cs">
                 var emoji = new Emoji("\U0001f495");
                 var reactedUsers = await message.GetReactionUsersAsync(emoji, 100).FlattenAsync();
@@ -5005,9 +5176,7 @@
             <param name="limit">The number of users to request.</param>
             <param name="options">The options to be used when sending the request.</param>
             <returns>
-                A paged collection containing a read-only collection of users that has reacted to this message.
-                Flattening the paginated response into a collection of users with 
-                <see cref="M:Discord.AsyncEnumerableExtensions.FlattenAsync``1(System.Collections.Generic.IAsyncEnumerable{System.Collections.Generic.IEnumerable{``0}})"/> is required if you wish to access the users.
+                 Paged collection of users.
             </returns>
         </member>
         <member name="T:Discord.IReaction">
@@ -5039,7 +5208,7 @@
                 method and what properties are available, please refer to <see cref="T:Discord.MessageProperties"/>.
             </remarks>
             <example>
-                The following example replaces the content of the message with <c>Hello World!</c>.
+                <para>The following example replaces the content of the message with <c>Hello World!</c>.</para>
                 <code language="cs">
                 await msg.ModifyAsync(x =&gt; x.Content = "Hello World!");
                 </code>
@@ -5080,6 +5249,21 @@
             <returns>
                 A task that represents the asynchronous operation for unpinning this message.
             </returns>
+        </member>
+        <member name="M:Discord.IUserMessage.CrosspostAsync(Discord.RequestOptions)">
+            <summary>
+                Publishes (crossposts) this message.
+            </summary>
+            <param name="options">The options to be used when sending the request.</param>
+            <returns>
+                A task that represents the asynchronous operation for publishing this message.
+            </returns>
+            <remarks>
+                <note type="warning">
+                    This call will throw an <see cref="T:System.InvalidOperationException"/> if attempted in a non-news channel.
+                </note>
+                This method will publish (crosspost) the message. Please note, publishing (crossposting), is only available in news channels.
+            </remarks>
         </member>
         <member name="M:Discord.IUserMessage.Resolve(Discord.TagHandling,Discord.TagHandling,Discord.TagHandling,Discord.TagHandling,Discord.TagHandling)">
             <summary>
@@ -6652,8 +6836,8 @@
                 Gets the level permissions granted to this user to a given channel.
             </summary>
             <example>
-                The following example checks if the current user has the ability to send a message with attachment in
-                this channel; if so, uploads a file via <see cref="M:Discord.IMessageChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)"/>.
+                <para>The following example checks if the current user has the ability to send a message with attachment in
+                this channel; if so, uploads a file via <see cref="M:Discord.IMessageChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)"/>.</para>
                 <code language="cs">
                 if (currentUser?.GetPermissions(targetChannel)?.AttachFiles)
                     await targetChannel.SendFileAsync("fortnite.png");
@@ -6832,8 +7016,8 @@
                 example).
             </remarks>
             <example>
-                The following example attempts to retrieve the user's current avatar and send it to a channel; if one is
-                not set, a default avatar for this user will be returned instead.
+                <para>The following example attempts to retrieve the user's current avatar and send it to a channel; if one is
+                not set, a default avatar for this user will be returned instead.</para>
                 <code language="cs" region="GetAvatarUrl"
                       source="..\..\..\Discord.Net.Examples\Core\Entities\Users\IUser.Examples.cs"/>
             </example>
@@ -6907,8 +7091,8 @@
                 </note>
             </remarks>
             <example>
-                The following example attempts to send a direct message to the target user and logs the incident should
-                it fail.
+                <para>The following example attempts to send a direct message to the target user and logs the incident should
+                it fail.</para>
                 <code region="GetOrCreateDMChannelAsync" language="cs"
                       source="../../../Discord.Net.Examples/Core/Entities/Users/IUser.Examples.cs"/>
             </example>
@@ -7336,7 +7520,7 @@
             <returns>
                 A task that represents the asynchronous operation for adding a reaction to this message.
             </returns>
-            <seealso cref="!:IUserMessage.AddReactionAsync(IEmote, RequestOptions)"/>
+            <seealso cref="M:Discord.IMessage.AddReactionAsync(Discord.IEmote,Discord.RequestOptions)"/>
             <seealso cref="T:Discord.IEmote"/>
         </member>
         <member name="M:Discord.MessageExtensions.RemoveReactionsAsync(Discord.IUserMessage,Discord.IUser,Discord.IEmote[],Discord.RequestOptions)">
@@ -7345,7 +7529,7 @@
             </summary>
             <remarks>
                 This method does not bulk remove reactions! If you want to clear reactions from a message,
-                <see cref="!:IUserMessage.RemoveAllReactionsAsync(RequestOptions)"/>
+                <see cref="M:Discord.IMessage.RemoveAllReactionsAsync(Discord.RequestOptions)"/>
             </remarks>
             <example>
             <code language="cs">
@@ -7358,13 +7542,13 @@
             <returns>
                 A task that represents the asynchronous operation for removing a reaction to this message.
             </returns>
-            <seealso cref="!:IUserMessage.RemoveReactionAsync(IEmote, IUser, RequestOptions)"/>
+            <seealso cref="M:Discord.IMessage.RemoveReactionAsync(Discord.IEmote,Discord.IUser,Discord.RequestOptions)"/>
             <seealso cref="T:Discord.IEmote"/>
         </member>
         <member name="T:Discord.UserExtensions">
             <summary> An extension class for various Discord user objects. </summary>
         </member>
-        <member name="M:Discord.UserExtensions.SendMessageAsync(Discord.IUser,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions)">
+        <member name="M:Discord.UserExtensions.SendMessageAsync(Discord.IUser,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)">
             <summary>
                 Sends a message via DM.
             </summary>
@@ -7386,6 +7570,10 @@
             <param name="isTTS">Whether the message should be read aloud by Discord or not.</param>
             <param name="embed">The <see cref="F:Discord.EmbedType.Rich"/> <see cref="T:Discord.Embed"/> to be sent.</param>
             <param name="options">The options to be used when sending the request.</param>
+            <param name="allowedMentions">
+                Specifies if notifications are sent for mentioned users and roles in the message <paramref name="text"/>.
+                If <c>null</c>, all mentioned roles and users will be notified.
+            </param>
             <returns>
                 A task that represents the asynchronous send operation. The task result contains the sent message.
             </returns>
@@ -7395,8 +7583,8 @@
                 Sends a file to this message channel with an optional caption.
             </summary>
             <example>
-                The following example uploads a streamed image that will be called <c>b1nzy.jpg</c> embedded inside a
-                rich embed to the channel.
+                <para>The following example uploads a streamed image that will be called <c>b1nzy.jpg</c> embedded inside a
+                rich embed to the channel.</para>
                 <code language="cs">
                 await channel.SendFileAsync(b1nzyStream, "b1nzy.jpg",
                     embed: new EmbedBuilder {ImageUrl = "attachment://b1nzy.jpg"}.Build());
@@ -7535,6 +7723,56 @@
             </summary>
             <param name="text">The text to format.</param>
             <returns>Gets the formatted block quote text.</returns>
+        </member>
+        <member name="F:Discord.GatewayIntents.None">
+            <summary> This intent includes no events </summary>
+        </member>
+        <member name="F:Discord.GatewayIntents.Guilds">
+            <summary> This intent includes GUILD_CREATE, GUILD_UPDATE, GUILD_DELETE, GUILD_ROLE_CREATE, GUILD_ROLE_UPDATE, GUILD_ROLE_DELETE, CHANNEL_CREATE, CHANNEL_UPDATE, CHANNEL_DELETE, CHANNEL_PINS_UPDATE </summary>
+        </member>
+        <member name="F:Discord.GatewayIntents.GuildMembers">
+            <summary> This intent includes GUILD_MEMBER_ADD, GUILD_MEMBER_UPDATE, GUILD_MEMBER_REMOVE </summary>
+            <remarks> This is a privileged intent and must be enabled in the Developer Portal. </remarks>
+        </member>
+        <member name="F:Discord.GatewayIntents.GuildBans">
+            <summary> This intent includes GUILD_BAN_ADD, GUILD_BAN_REMOVE </summary>
+        </member>
+        <member name="F:Discord.GatewayIntents.GuildEmojis">
+            <summary> This intent includes GUILD_EMOJIS_UPDATE </summary>
+        </member>
+        <member name="F:Discord.GatewayIntents.GuildIntegrations">
+            <summary> This intent includes GUILD_INTEGRATIONS_UPDATE </summary>
+        </member>
+        <member name="F:Discord.GatewayIntents.GuildWebhooks">
+            <summary> This intent includes WEBHOOKS_UPDATE </summary>
+        </member>
+        <member name="F:Discord.GatewayIntents.GuildInvites">
+            <summary> This intent includes INVITE_CREATE, INVITE_DELETE </summary>
+        </member>
+        <member name="F:Discord.GatewayIntents.GuildVoiceStates">
+            <summary> This intent includes VOICE_STATE_UPDATE </summary>
+        </member>
+        <member name="F:Discord.GatewayIntents.GuildPresences">
+            <summary> This intent includes PRESENCE_UPDATE </summary>
+            <remarks> This is a privileged intent and must be enabled in the Developer Portal. </remarks>
+        </member>
+        <member name="F:Discord.GatewayIntents.GuildMessages">
+            <summary> This intent includes MESSAGE_CREATE, MESSAGE_UPDATE, MESSAGE_DELETE, MESSAGE_DELETE_BULK </summary>
+        </member>
+        <member name="F:Discord.GatewayIntents.GuildMessageReactions">
+            <summary> This intent includes MESSAGE_REACTION_ADD, MESSAGE_REACTION_REMOVE, MESSAGE_REACTION_REMOVE_ALL, MESSAGE_REACTION_REMOVE_EMOJI </summary>
+        </member>
+        <member name="F:Discord.GatewayIntents.GuildMessageTyping">
+            <summary> This intent includes TYPING_START </summary>
+        </member>
+        <member name="F:Discord.GatewayIntents.DirectMessages">
+            <summary> This intent includes CHANNEL_CREATE, MESSAGE_CREATE, MESSAGE_UPDATE, MESSAGE_DELETE, CHANNEL_PINS_UPDATE </summary>
+        </member>
+        <member name="F:Discord.GatewayIntents.DirectMessageReactions">
+            <summary> This intent includes MESSAGE_REACTION_ADD, MESSAGE_REACTION_REMOVE, MESSAGE_REACTION_REMOVE_ALL, MESSAGE_REACTION_REMOVE_EMOJI </summary>
+        </member>
+        <member name="F:Discord.GatewayIntents.DirectMessageTyping">
+            <summary> This intent includes TYPING_START </summary>
         </member>
         <member name="T:Discord.IDiscordClient">
             <summary>
@@ -8095,7 +8333,18 @@
                 to all actions.
             </remarks>
         </member>
-        <!-- Badly formed XML comment ignored for member "P:Discord.RequestOptions.UseSystemClock" -->
+        <member name="P:Discord.RequestOptions.UseSystemClock">
+            <summary>
+            	Gets or sets whether or not this request should use the system
+            	clock for rate-limiting. Defaults to <c>true</c>.
+            </summary>
+            <remarks>
+            	This property can also be set in <see cref="T:Discord.DiscordConfig"/>.
+            	On a per-request basis, the system clock should only be disabled 
+            	when millisecond precision is especially important, and the
+            	hosting system is known to have a desynced clock.
+            </remarks>
+        </member>
         <member name="M:Discord.RequestOptions.#ctor">
             <summary>
                 Initializes a new <see cref="T:Discord.RequestOptions" /> class with the default request timeout set in

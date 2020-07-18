@@ -301,6 +301,19 @@
                 A user object representing the banned user.
             </returns>
         </member>
+        <member name="T:Discord.Rest.BotAddAuditLogData">
+            <summary>
+                Contains a piece of audit log data related to a adding a bot to a guild.
+            </summary>
+        </member>
+        <member name="P:Discord.Rest.BotAddAuditLogData.Target">
+            <summary>
+                Gets the bot that was added.
+            </summary>
+            <returns>
+                A user object representing the bot.
+            </returns>
+        </member>
         <member name="T:Discord.Rest.ChannelCreateAuditLogData">
             <summary>
                 Contains a piece of audit log data related to a channel creation.
@@ -335,7 +348,7 @@
                 Gets the current slow-mode delay of the created channel.
             </summary>
             <returns>
-                An <see cref="!:Int32"/> representing the time in seconds required before the user can send another
+                An <see cref="T:System.Int32"/> representing the time in seconds required before the user can send another
                 message; <c>0</c> if disabled.
                 <c>null</c> if this is not mentioned in this entry.
             </returns>
@@ -354,7 +367,7 @@
                 Gets the bit-rate that the clients in the created voice channel are requested to use.
             </summary>
             <returns>
-                An <see cref="!:Int32"/> representing the bit-rate (bps) that the created voice channel defines and requests the
+                An <see cref="T:System.Int32"/> representing the bit-rate (bps) that the created voice channel defines and requests the
                 client(s) to use.
                 <c>null</c> if this is not mentioned in this entry.
             </returns>
@@ -402,7 +415,7 @@
                 Gets the slow-mode delay of the deleted channel.
             </summary>
             <returns>
-                An <see cref="!:Int32"/> representing the time in seconds required before the user can send another
+                An <see cref="T:System.Int32"/> representing the time in seconds required before the user can send another
                 message; <c>0</c> if disabled.
                 <c>null</c> if this is not mentioned in this entry.
             </returns>
@@ -421,7 +434,7 @@
                 Gets the bit-rate of this channel if applicable.
             </summary>
             <returns>
-                An <see cref="!:Int32"/> representing the bit-rate set of the voice channel.
+                An <see cref="T:System.Int32"/> representing the bit-rate set of the voice channel.
                 <c>null</c> if this is not mentioned in this entry.
             </returns>
         </member>
@@ -459,7 +472,7 @@
                 Gets the current slow-mode delay of this channel.
             </summary>
             <returns>
-                An <see cref="!:Int32"/> representing the time in seconds required before the user can send another
+                An <see cref="T:System.Int32"/> representing the time in seconds required before the user can send another
                 message; <c>0</c> if disabled.
                 <c>null</c> if this is not mentioned in this entry.
             </returns>
@@ -478,7 +491,7 @@
                 Gets the bit-rate of this channel if applicable.
             </summary>
             <returns>
-                An <see cref="!:Int32"/> representing the bit-rate set for the voice channel;
+                An <see cref="T:System.Int32"/> representing the bit-rate set for the voice channel;
                 <c>null</c> if this is not mentioned in this entry.
             </returns>
         </member>
@@ -929,6 +942,19 @@
                 A user object representing the kicked user.
             </returns>
         </member>
+        <member name="T:Discord.Rest.MemberDisconnectAuditLogData">
+            <summary>
+                Contains a piece of audit log data related to disconnecting members from voice channels.
+            </summary>
+        </member>
+        <member name="P:Discord.Rest.MemberDisconnectAuditLogData.MemberCount">
+            <summary>
+                Gets the number of members that were disconnected.
+            </summary>
+            <returns>
+                An <see cref="T:System.Int32"/> representing the number of members that were disconnected from a voice channel.
+            </returns>
+        </member>
         <member name="T:Discord.Rest.MemberInfo">
             <summary>
                 Represents information for a member.
@@ -960,6 +986,27 @@
             <returns>
                 <c>true</c> if the updated member is muted by the guild; otherwise <c>false</c>.
                 <c>null</c> if this is not mentioned in this entry.
+            </returns>
+        </member>
+        <member name="T:Discord.Rest.MemberMoveAuditLogData">
+            <summary>
+                Contains a piece of audit log data related to moving members between voice channels.
+            </summary>
+        </member>
+        <member name="P:Discord.Rest.MemberMoveAuditLogData.ChannelId">
+            <summary>
+                Gets the ID of the channel that the members were moved to.
+            </summary>
+            <returns>
+                A <see cref="T:System.UInt64"/> representing the snowflake identifier for the channel that the members were moved to.
+            </returns>
+        </member>
+        <member name="P:Discord.Rest.MemberMoveAuditLogData.MemberCount">
+            <summary>
+                Gets the number of members that were moved.
+            </summary>
+            <returns>
+                An <see cref="T:System.Int32"/> representing the number of members that were moved to another voice channel.
             </returns>
         </member>
         <member name="T:Discord.Rest.MemberRoleAuditLogData">
@@ -1042,6 +1089,28 @@
                 An information object containing the member information after the changes were made.
             </returns>
         </member>
+        <member name="T:Discord.Rest.MessageBulkDeleteAuditLogData">
+            <summary>
+                Contains a piece of audit log data related to message deletion(s).
+            </summary>
+        </member>
+        <member name="P:Discord.Rest.MessageBulkDeleteAuditLogData.ChannelId">
+            <summary>
+                Gets the ID of the channel that the messages were deleted from.
+            </summary>
+            <returns>
+                A <see cref="T:System.UInt64"/> representing the snowflake identifier for the channel that the messages were
+                deleted from.
+            </returns>
+        </member>
+        <member name="P:Discord.Rest.MessageBulkDeleteAuditLogData.MessageCount">
+            <summary>
+                Gets the number of messages that were deleted.
+            </summary>
+            <returns>
+                An <see cref="T:System.Int32"/> representing the number of messages that were deleted from the channel.
+            </returns>
+        </member>
         <member name="T:Discord.Rest.MessageDeleteAuditLogData">
             <summary>
                 Contains a piece of audit log data related to message deletion(s).
@@ -1064,12 +1133,70 @@
                 deleted from.
             </returns>
         </member>
-        <member name="P:Discord.Rest.MessageDeleteAuditLogData.AuthorId">
+        <member name="P:Discord.Rest.MessageDeleteAuditLogData.Target">
             <summary>
-                Gets the author of the messages that were deleted.
+                Gets the user of the messages that were deleted.
             </summary>
             <returns>
-                A <see cref="T:System.UInt64"/> representing the snowflake identifier for the user that created the deleted messages.
+                A user object representing the user that created the deleted messages.
+            </returns>
+        </member>
+        <member name="T:Discord.Rest.MessagePinAuditLogData">
+            <summary>
+                Contains a piece of audit log data related to a pinned message.
+            </summary>
+        </member>
+        <member name="P:Discord.Rest.MessagePinAuditLogData.MessageId">
+            <summary>
+                Gets the ID of the messages that was pinned.
+            </summary>
+            <returns>
+                A <see cref="T:System.UInt64"/> representing the snowflake identifier for the messages that was pinned.
+            </returns>
+        </member>
+        <member name="P:Discord.Rest.MessagePinAuditLogData.ChannelId">
+            <summary>
+                Gets the ID of the channel that the message was pinned from.
+            </summary>
+            <returns>
+                A <see cref="T:System.UInt64"/> representing the snowflake identifier for the channel that the message was pinned from.
+            </returns>
+        </member>
+        <member name="P:Discord.Rest.MessagePinAuditLogData.Target">
+            <summary>
+                Gets the user of the message that was pinned.
+            </summary>
+            <returns>
+                A user object representing the user that created the pinned message.
+            </returns>
+        </member>
+        <member name="T:Discord.Rest.MessageUnpinAuditLogData">
+            <summary>
+                Contains a piece of audit log data related to an unpinned message.
+            </summary>
+        </member>
+        <member name="P:Discord.Rest.MessageUnpinAuditLogData.MessageId">
+            <summary>
+                Gets the ID of the messages that was unpinned.
+            </summary>
+            <returns>
+                A <see cref="T:System.UInt64"/> representing the snowflake identifier for the messages that was unpinned.
+            </returns>
+        </member>
+        <member name="P:Discord.Rest.MessageUnpinAuditLogData.ChannelId">
+            <summary>
+                Gets the ID of the channel that the message was unpinned from.
+            </summary>
+            <returns>
+                A <see cref="T:System.UInt64"/> representing the snowflake identifier for the channel that the message was unpinned from.
+            </returns>
+        </member>
+        <member name="P:Discord.Rest.MessageUnpinAuditLogData.Target">
+            <summary>
+                Gets the user of the message that was unpinned.
+            </summary>
+            <returns>
+                A user object representing the user that created the unpinned message.
             </returns>
         </member>
         <member name="T:Discord.Rest.OverwriteCreateAuditLogData">
@@ -1502,10 +1629,10 @@
             <paramref name="maxAge"/> must be lesser than 86400.
             </exception>
         </member>
-        <member name="M:Discord.Rest.ChannelHelper.SendMessageAsync(Discord.IMessageChannel,Discord.Rest.BaseDiscordClient,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions)">
+        <member name="M:Discord.Rest.ChannelHelper.SendMessageAsync(Discord.IMessageChannel,Discord.Rest.BaseDiscordClient,System.String,System.Boolean,Discord.Embed,Discord.AllowedMentions,Discord.RequestOptions)">
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
-        <member name="M:Discord.Rest.ChannelHelper.SendFileAsync(Discord.IMessageChannel,Discord.Rest.BaseDiscordClient,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.Rest.ChannelHelper.SendFileAsync(Discord.IMessageChannel,Discord.Rest.BaseDiscordClient,System.String,System.String,System.Boolean,Discord.Embed,Discord.AllowedMentions,Discord.RequestOptions,System.Boolean)">
             <exception cref="T:System.ArgumentException">
             <paramref name="filePath" /> is a zero-length string, contains only white space, or contains one or more
             invalid characters as defined by <see cref="M:System.IO.Path.GetInvalidPathChars"/>.
@@ -1531,7 +1658,7 @@
             <exception cref="T:System.IO.IOException">An I/O error occurred while opening the file.</exception>
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
-        <member name="M:Discord.Rest.ChannelHelper.SendFileAsync(Discord.IMessageChannel,Discord.Rest.BaseDiscordClient,System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.Rest.ChannelHelper.SendFileAsync(Discord.IMessageChannel,Discord.Rest.BaseDiscordClient,System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.AllowedMentions,Discord.RequestOptions,System.Boolean)">
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
         <member name="M:Discord.Rest.ChannelHelper.GetUserAsync(Discord.IGuildChannel,Discord.IGuild,Discord.Rest.BaseDiscordClient,System.UInt64,Discord.RequestOptions)">
@@ -1548,30 +1675,34 @@
                 Represents a REST-based channel that can send and receive messages.
             </summary>
         </member>
-        <member name="M:Discord.Rest.IRestMessageChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions)">
+        <member name="M:Discord.Rest.IRestMessageChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)">
             <summary>
                 Sends a message to this message channel.
             </summary>
             <remarks>
-                This method follows the same behavior as described in <see cref="M:Discord.IMessageChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions)"/>.
+                This method follows the same behavior as described in <see cref="M:Discord.IMessageChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)"/>.
                 Please visit its documentation for more details on this method.
             </remarks>
             <param name="text">The message to be sent.</param>
             <param name="isTTS">Determines whether the message should be read aloud by Discord or not.</param>
             <param name="embed">The <see cref="F:Discord.EmbedType.Rich"/> <see cref="T:Discord.Embed"/> to be sent.</param>
             <param name="options">The options to be used when sending the request.</param>
+            <param name="allowedMentions">
+                Specifies if notifications are sent for mentioned users and roles in the message <paramref name="text"/>.
+                If <c>null</c>, all mentioned roles and users will be notified.
+            </param>
             <returns>
                 A task that represents an asynchronous send operation for delivering the message. The task result
                 contains the sent message.
             </returns>
         </member>
-        <member name="M:Discord.Rest.IRestMessageChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.Rest.IRestMessageChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <summary>
                 Sends a file to this message channel with an optional caption.
             </summary>
             <remarks>
                 This method follows the same behavior as described in 
-                <see cref="M:Discord.IMessageChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)"/>. Please visit
+                <see cref="M:Discord.IMessageChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)"/>. Please visit
                 its documentation for more details on this method.
             </remarks>
             <param name="filePath">The file path of the file.</param>
@@ -1579,17 +1710,22 @@
             <param name="isTTS">Whether the message should be read aloud by Discord or not.</param>
             <param name="embed">The <see cref="F:Discord.EmbedType.Rich" /> <see cref="T:Discord.Embed" /> to be sent.</param>
             <param name="options">The options to be used when sending the request.</param>
+            <param name="isSpoiler">Whether the message attachment should be hidden as a spoiler.</param>
+            <param name="allowedMentions">
+                Specifies if notifications are sent for mentioned users and roles in the message <paramref name="text"/>.
+                If <c>null</c>, all mentioned roles and users will be notified.
+            </param>
             <returns>
                 A task that represents an asynchronous send operation for delivering the message. The task result
                 contains the sent message.
             </returns>
         </member>
-        <member name="M:Discord.Rest.IRestMessageChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.Rest.IRestMessageChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <summary>
                 Sends a file to this message channel with an optional caption.
             </summary>
             <remarks>
-                This method follows the same behavior as described in <see cref="M:Discord.IMessageChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)"/>.
+                This method follows the same behavior as described in <see cref="M:Discord.IMessageChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)"/>.
                 Please visit its documentation for more details on this method.
             </remarks>
             <param name="stream">The <see cref="T:System.IO.Stream" /> of the file to be sent.</param>
@@ -1598,6 +1734,11 @@
             <param name="isTTS">Whether the message should be read aloud by Discord or not.</param>
             <param name="embed">The <see cref="F:Discord.EmbedType.Rich"/> <see cref="T:Discord.Embed"/> to be sent.</param>
             <param name="options">The options to be used when sending the request.</param>
+            <param name="isSpoiler">Whether the message attachment should be hidden as a spoiler.</param>
+            <param name="allowedMentions">
+                Specifies if notifications are sent for mentioned users and roles in the message <paramref name="text"/>.
+                If <c>null</c>, all mentioned roles and users will be notified.
+            </param>
             <returns>
                 A task that represents an asynchronous send operation for delivering the message. The task result
                 contains the sent message.
@@ -1777,11 +1918,11 @@
         <member name="M:Discord.Rest.RestDMChannel.GetPinnedMessagesAsync(Discord.RequestOptions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.Rest.RestDMChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions)">
+        <member name="M:Discord.Rest.RestDMChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)">
             <inheritdoc />
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
-        <member name="M:Discord.Rest.RestDMChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.Rest.RestDMChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <inheritdoc />
             <exception cref="T:System.ArgumentException">
             <paramref name="filePath" /> is a zero-length string, contains only white space, or contains one or more
@@ -1808,7 +1949,7 @@
             <exception cref="T:System.IO.IOException">An I/O error occurred while opening the file.</exception>
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
-        <member name="M:Discord.Rest.RestDMChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.Rest.RestDMChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <inheritdoc />
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
@@ -1856,13 +1997,13 @@
         <member name="M:Discord.Rest.RestDMChannel.Discord#IMessageChannel#GetPinnedMessagesAsync(Discord.RequestOptions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.Rest.RestDMChannel.Discord#IMessageChannel#SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.Rest.RestDMChannel.Discord#IMessageChannel#SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.Rest.RestDMChannel.Discord#IMessageChannel#SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.Rest.RestDMChannel.Discord#IMessageChannel#SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.Rest.RestDMChannel.Discord#IMessageChannel#SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions)">
+        <member name="M:Discord.Rest.RestDMChannel.Discord#IMessageChannel#SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)">
             <inheritdoc />
         </member>
         <member name="P:Discord.Rest.RestDMChannel.Discord#IChannel#Name">
@@ -1909,11 +2050,11 @@
         <member name="M:Discord.Rest.RestGroupChannel.DeleteMessageAsync(Discord.IMessage,Discord.RequestOptions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.Rest.RestGroupChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions)">
+        <member name="M:Discord.Rest.RestGroupChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)">
             <inheritdoc />
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
-        <member name="M:Discord.Rest.RestGroupChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.Rest.RestGroupChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <inheritdoc />
             <exception cref="T:System.ArgumentException">
             <paramref name="filePath" /> is a zero-length string, contains only white space, or contains one or more
@@ -1940,7 +2081,7 @@
             <exception cref="T:System.IO.IOException">An I/O error occurred while opening the file.</exception>
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
-        <member name="M:Discord.Rest.RestGroupChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.Rest.RestGroupChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <inheritdoc />
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
@@ -2155,11 +2296,11 @@
         <member name="M:Discord.Rest.RestTextChannel.GetPinnedMessagesAsync(Discord.RequestOptions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.Rest.RestTextChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions)">
+        <member name="M:Discord.Rest.RestTextChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)">
             <inheritdoc />
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
-        <member name="M:Discord.Rest.RestTextChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.Rest.RestTextChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <inheritdoc />
             <exception cref="T:System.ArgumentException">
             <paramref name="filePath" /> is a zero-length string, contains only white space, or contains one or more
@@ -2186,7 +2327,7 @@
             <exception cref="T:System.IO.IOException">An I/O error occurred while opening the file.</exception>
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
-        <member name="M:Discord.Rest.RestTextChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.Rest.RestTextChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <inheritdoc />
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
@@ -2284,13 +2425,13 @@
         <member name="M:Discord.Rest.RestTextChannel.Discord#IMessageChannel#GetPinnedMessagesAsync(Discord.RequestOptions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.Rest.RestTextChannel.Discord#IMessageChannel#SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.Rest.RestTextChannel.Discord#IMessageChannel#SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.Rest.RestTextChannel.Discord#IMessageChannel#SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.Rest.RestTextChannel.Discord#IMessageChannel#SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.Rest.RestTextChannel.Discord#IMessageChannel#SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions)">
+        <member name="M:Discord.Rest.RestTextChannel.Discord#IMessageChannel#SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)">
             <inheritdoc />
         </member>
         <member name="M:Discord.Rest.RestTextChannel.Discord#IGuildChannel#GetUserAsync(System.UInt64,Discord.CacheMode,Discord.RequestOptions)">
@@ -2868,6 +3009,22 @@
                 be or has been removed from this guild.
             </returns>
         </member>
+        <member name="M:Discord.Rest.RestGuild.SearchUsersAsync(System.String,System.Int32,Discord.RequestOptions)">
+            <summary>
+                Gets a collection of users in this guild that the name or nickname starts with the
+                provided <see cref="T:System.String"/> at <paramref name="query"/>.
+            </summary>
+            <remarks>
+                The <paramref name="limit"/> can not be higher than <see cref="F:Discord.DiscordConfig.MaxUsersPerBatch"/>.
+            </remarks>
+            <param name="query">The partial name or nickname to search.</param>
+            <param name="limit">The maximum number of users to be gotten.</param>
+            <param name="options">The options to be used when sending the request.</param>
+            <returns>
+                A task that represents the asynchronous get operation. The task result contains a collection of guild
+                users that the name or nickname starts with the provided <see cref="T:System.String"/> at <paramref name="query"/>.
+            </returns>
+        </member>
         <member name="M:Discord.Rest.RestGuild.GetAuditLogsAsync(System.Int32,Discord.RequestOptions,System.Nullable{System.UInt64},System.Nullable{System.UInt64},System.Nullable{Discord.ActionType})">
             <summary>
                 Gets the specified number of audit log entries for this guild.
@@ -3029,6 +3186,9 @@
         <member name="M:Discord.Rest.RestGuild.Discord#IGuild#DownloadUsersAsync">
             <inheritdoc />
             <exception cref="T:System.NotSupportedException">Downloading users is not supported for a REST-based guild.</exception>
+        </member>
+        <member name="M:Discord.Rest.RestGuild.Discord#IGuild#SearchUsersAsync(System.String,System.Int32,Discord.CacheMode,Discord.RequestOptions)">
+            <inheritdoc />
         </member>
         <member name="M:Discord.Rest.RestGuild.Discord#IGuild#GetWebhookAsync(System.UInt64,Discord.RequestOptions)">
             <inheritdoc />
@@ -3308,6 +3468,9 @@
         <member name="M:Discord.Rest.RestMessage.RemoveAllReactionsAsync(Discord.RequestOptions)">
             <inheritdoc />
         </member>
+        <member name="M:Discord.Rest.RestMessage.RemoveAllReactionsForEmoteAsync(Discord.IEmote,Discord.RequestOptions)">
+            <inheritdoc />
+        </member>
         <member name="M:Discord.Rest.RestMessage.GetReactionUsersAsync(Discord.IEmote,System.Int32,Discord.RequestOptions)">
             <inheritdoc />
         </member>
@@ -3386,6 +3549,10 @@
         </member>
         <member name="M:Discord.Rest.RestUserMessage.Resolve(Discord.TagHandling,Discord.TagHandling,Discord.TagHandling,Discord.TagHandling,Discord.TagHandling)">
             <inheritdoc />
+        </member>
+        <member name="M:Discord.Rest.RestUserMessage.CrosspostAsync(Discord.RequestOptions)">
+            <inheritdoc />
+            <exception cref="T:System.InvalidOperationException">This operation may only be called on a <see cref="T:Discord.Rest.RestNewsChannel"/> channel.</exception>
         </member>
         <member name="T:Discord.Rest.RestApplication">
             <summary>

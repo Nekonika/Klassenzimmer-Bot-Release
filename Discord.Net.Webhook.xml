@@ -32,7 +32,7 @@
             <exception cref="T:System.ArgumentNullException">Thrown if the <paramref name="webhookUrl"/> is null or whitespace.</exception>
         </member>
         <member name="M:Discord.Webhook.DiscordWebhookClient.SendMessageAsync(System.String,System.Boolean,System.Collections.Generic.IEnumerable{Discord.Embed},System.String,System.String,Discord.RequestOptions)">
-            <summary> Sends a message using to the channel for this webhook. </summary>
+            <summary> Sends a message to the channel for this webhook. </summary>
             <returns> Returns the ID of the created message. </returns>
         </member>
         <member name="M:Discord.Webhook.DiscordWebhookClient.SendFileAsync(System.String,System.String,System.Boolean,System.Collections.Generic.IEnumerable{Discord.Embed},System.String,System.String,Discord.RequestOptions,System.Boolean)">
