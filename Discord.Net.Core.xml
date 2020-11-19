@@ -48,6 +48,9 @@
         <member name="P:Discord.Audio.IAudioClient.UdpLatency">
             <summary> Gets the estimated round-trip latency, in milliseconds, to the voice UDP server. </summary>
         </member>
+        <member name="M:Discord.Audio.IAudioClient.GetStreams">
+            <summary>Gets the current audio streams.</summary>
+        </member>
         <member name="M:Discord.Audio.IAudioClient.CreateOpusStream(System.Int32)">
             <summary>Creates a new outgoing stream accepting Opus-encoded data.</summary>
         </member>
@@ -64,6 +67,16 @@
             <summary>
                 Represents a class containing the strings related to various Content Delivery Networks (CDNs).
             </summary>
+        </member>
+        <member name="M:Discord.CDN.GetTeamIconUrl(System.UInt64,System.String)">
+            <summary>
+                Returns a team icon URL.
+            </summary>
+            <param name="teamId">The team identifier.</param>
+            <param name="iconId">The icon identifier.</param>
+            <returns>
+                A URL pointing to the team's icon.
+            </returns>
         </member>
         <member name="M:Discord.CDN.GetApplicationIconUrl(System.UInt64,System.String)">
             <summary>
@@ -113,7 +126,17 @@
             <param name="guildId">The guild snowflake identifier.</param>
             <param name="splashId">The splash icon identifier.</param>
             <returns>
-                A URL pointing to the guild's icon.
+                A URL pointing to the guild's splash.
+            </returns>
+        </member>
+        <member name="M:Discord.CDN.GetGuildDiscoverySplashUrl(System.UInt64,System.String)">
+            <summary>
+                Returns a guild discovery splash URL.
+            </summary>
+            <param name="guildId">The guild snowflake identifier.</param>
+            <param name="discoverySplashId">The discovery splash icon identifier.</param>
+            <returns>
+                A URL pointing to the guild's discovery splash.
             </returns>
         </member>
         <member name="M:Discord.CDN.GetChannelIconUrl(System.UInt64,System.String)">
@@ -234,7 +257,7 @@
             <returns>
                 An <see cref="T:System.Int32"/> representing the API version that Discord.Net uses to communicate with Discord.
                 <para>A list of available API version can be seen on the official 
-                <see href="https://discordapp.com/developers/docs/reference#api-versioning">Discord API documentation</see>
+                <see href="https://discord.com/developers/docs/reference#api-versioning">Discord API documentation</see>
                 .</para>
             </returns>
         </member>
@@ -1128,9 +1151,14 @@
             </summary>
             <remarks>
                 Setting this value to a category's snowflake identifier will change or set this channel's parent to the
-                specified channel; setting this value to <c>0</c> will detach this channel from its parent if one
+                specified channel; setting this value to <see langword="null"/> will detach this channel from its parent if one
                 is set.
             </remarks>
+        </member>
+        <member name="P:Discord.GuildChannelProperties.PermissionOverwrites">
+            <summary>
+                Gets or sets the permission overwrites for this channel.
+            </summary>
         </member>
         <member name="T:Discord.IAudioChannel">
             <summary>
@@ -1755,6 +1783,11 @@
                 of invite metadata that are created for this channel.
             </returns>
         </member>
+        <member name="T:Discord.INewsChannel">
+            <summary>
+                Represents a generic news channel in a guild that can send and receive messages.
+            </summary>
+        </member>
         <member name="T:Discord.IPrivateChannel">
             <summary>
                 Represents a generic channel that is private to select recipients.
@@ -2159,6 +2192,65 @@
                 A string representing the display name or the Unicode representation (e.g. <c>🤔</c>) of this emote.
             </returns>
         </member>
+        <member name="T:Discord.BotGateway">
+            <summary>
+                Stores the gateway information related to the current bot.
+            </summary>
+        </member>
+        <member name="P:Discord.BotGateway.Url">
+            <summary>
+                Gets the WSS URL that can be used for connecting to the gateway.
+            </summary>
+        </member>
+        <member name="P:Discord.BotGateway.Shards">
+            <summary>
+                Gets the recommended number of shards to use when connecting.
+            </summary>
+        </member>
+        <member name="P:Discord.BotGateway.SessionStartLimit">
+            <summary>
+                Gets the <see cref="P:Discord.BotGateway.SessionStartLimit"/> that contains the information
+                about the current session start limit.
+            </summary>
+        </member>
+        <member name="T:Discord.SessionStartLimit">
+            <summary>
+                Stores the information related to the gateway identify request.
+            </summary>
+        </member>
+        <member name="P:Discord.SessionStartLimit.Total">
+            <summary>
+                Gets the total number of session starts the current user is allowed.
+            </summary>
+            <returns>
+                The maximum amount of session starts the current user is allowed.
+            </returns>
+        </member>
+        <member name="P:Discord.SessionStartLimit.Remaining">
+            <summary>
+                Gets the remaining number of session starts the current user is allowed.
+            </summary>
+            <returns>
+                The remaining amount of session starts the current user is allowed.
+            </returns>
+        </member>
+        <member name="P:Discord.SessionStartLimit.ResetAfter">
+            <summary>
+                Gets the number of milliseconds after which the limit resets.
+            </summary>
+            <returns>
+                The milliseconds until the limit resets back to the <see cref="P:Discord.SessionStartLimit.Total"/>.
+            </returns>
+        </member>
+        <member name="P:Discord.SessionStartLimit.MaxConcurrency">
+            <summary>
+                Gets the maximum concurrent identify requests in a time window.
+            </summary>
+            <returns>
+                The maximum concurrent identify requests in a time window,
+                limited to the same rate limit key.
+            </returns>
+        </member>
         <member name="T:Discord.DefaultMessageNotifications">
             <summary>
                 Specifies the default message notification behavior the guild uses.
@@ -2349,6 +2441,26 @@
                 the value of <see cref="P:Discord.GuildProperties.PreferredCulture"/> will be unused.
             </remarks>
         </member>
+        <member name="T:Discord.GuildWidgetProperties">
+            <summary>
+                Provides properties that are used to modify the widget of an <see cref="T:Discord.IGuild" /> with the specified changes.
+            </summary>
+        </member>
+        <member name="P:Discord.GuildWidgetProperties.Enabled">
+            <summary>
+                Sets whether the widget should be enabled.
+            </summary>
+        </member>
+        <member name="P:Discord.GuildWidgetProperties.Channel">
+            <summary>
+                Sets the channel that the invite should place its users in, if not <see langword="null" />.
+            </summary>
+        </member>
+        <member name="P:Discord.GuildWidgetProperties.ChannelId">
+            <summary>
+                Sets the channel that the invite should place its users in, if not <see langword="null" />.
+            </summary>
+        </member>
         <member name="T:Discord.IBan">
             <summary>
                 Represents a generic ban object.
@@ -2389,7 +2501,7 @@
                 automatically moved to the AFK voice channel.
             </summary>
             <returns>
-                An <see cref="T:System.Int32"/> representing the amount of time in seconds for a user to be marked as inactive
+                An <see langword="int"/> representing the amount of time in seconds for a user to be marked as inactive
                 and moved into the AFK voice channel.
             </returns>
         </member>
@@ -2398,7 +2510,15 @@
                 Gets a value that indicates whether this guild is embeddable (i.e. can use widget).
             </summary>
             <returns>
-                <c>true</c> if this guild can be embedded via widgets; otherwise <c>false</c>.
+                <see langword="true" /> if this guild has a widget enabled; otherwise <see langword="false" />.
+            </returns>
+        </member>
+        <member name="P:Discord.IGuild.IsWidgetEnabled">
+            <summary>
+                Gets a value that indicates whether this guild has the widget enabled.
+            </summary>
+            <returns>
+                <see langword="true" /> if this guild has a widget enabled; otherwise <see langword="false" />.
             </returns>
         </member>
         <member name="P:Discord.IGuild.DefaultMessageNotifications">
@@ -2436,7 +2556,7 @@
                 Gets the ID of this guild's icon.
             </summary>
             <returns>
-                An identifier for the splash image; <c>null</c> if none is set.
+                An identifier for the splash image; <see langword="null" /> if none is set.
             </returns>
         </member>
         <member name="P:Discord.IGuild.IconUrl">
@@ -2444,7 +2564,7 @@
                 Gets the URL of this guild's icon.
             </summary>
             <returns>
-                A URL pointing to the guild's icon; <c>null</c> if none is set.
+                A URL pointing to the guild's icon; <see langword="null" /> if none is set.
             </returns>
         </member>
         <member name="P:Discord.IGuild.SplashId">
@@ -2452,7 +2572,7 @@
                 Gets the ID of this guild's splash image.
             </summary>
             <returns>
-                An identifier for the splash image; <c>null</c> if none is set.
+                An identifier for the splash image; <see langword="null" /> if none is set.
             </returns>
         </member>
         <member name="P:Discord.IGuild.SplashUrl">
@@ -2460,7 +2580,23 @@
                 Gets the URL of this guild's splash image.
             </summary>
             <returns>
-                A URL pointing to the guild's splash image; <c>null</c> if none is set.
+                A URL pointing to the guild's splash image; <see langword="null" /> if none is set.
+            </returns>
+        </member>
+        <member name="P:Discord.IGuild.DiscoverySplashId">
+            <summary>
+                Gets the ID of this guild's discovery splash image.
+            </summary>
+            <returns>
+                An identifier for the discovery splash image; <see langword="null" /> if none is set.
+            </returns>
+        </member>
+        <member name="P:Discord.IGuild.DiscoverySplashUrl">
+            <summary>
+                Gets the URL of this guild's discovery splash image.
+            </summary>
+            <returns>
+                A URL pointing to the guild's discovery splash image; <see langword="null" /> if none is set.
             </returns>
         </member>
         <member name="P:Discord.IGuild.Available">
@@ -2474,7 +2610,7 @@
                 This boolean is used to determine if the guild is currently connected to the WebSocket and is ready to be used/accessed.
             </remarks>
             <returns>
-                <c>true</c> if this guild is currently connected and ready to be used; otherwise <c>false</c>.
+                <c>true</c> if this guild is currently connected and ready to be used; otherwise <see langword="false"/>.
             </returns>
         </member>
         <member name="P:Discord.IGuild.AFKChannelId">
@@ -2482,7 +2618,7 @@
                 Gets the ID of the AFK voice channel for this guild.
             </summary>
             <returns>
-                A <see cref="T:System.UInt64"/> representing the snowflake identifier of the AFK voice channel; <c>null</c> if
+                A <see langword="ulong"/> representing the snowflake identifier of the AFK voice channel; <see langword="null" /> if
                 none is set.
             </returns>
         </member>
@@ -2498,7 +2634,7 @@
                 </note>
             </remarks>
             <returns>
-                A <see cref="T:System.UInt64"/> representing the snowflake identifier of the default text channel; <c>0</c> if
+                A <see langword="ulong"/> representing the snowflake identifier of the default text channel; <c>0</c> if
                 none can be found.
             </returns>
         </member>
@@ -2507,8 +2643,17 @@
                 Gets the ID of the widget embed channel of this guild.
             </summary>
             <returns>
-                A <see cref="T:System.UInt64"/> representing the snowflake identifier of the embedded channel found within the
-                widget settings of this guild; <c>null</c> if none is set.
+                A <see langword="ulong"/> representing the snowflake identifier of the embedded channel found within the
+                widget settings of this guild; <see langword="null" /> if none is set.
+            </returns>
+        </member>
+        <member name="P:Discord.IGuild.WidgetChannelId">
+            <summary>
+                Gets the ID of the channel assigned to the widget of this guild.
+            </summary>
+            <returns>
+                A <see langword="ulong"/> representing the snowflake identifier of the channel assigned to the widget found
+                within the widget settings of this guild; <see langword="null" /> if none is set.
             </returns>
         </member>
         <member name="P:Discord.IGuild.SystemChannelId">
@@ -2516,8 +2661,26 @@
                 Gets the ID of the channel where randomized welcome messages are sent.
             </summary>
             <returns>
-                A <see cref="T:System.UInt64"/> representing the snowflake identifier of the system channel where randomized
-                welcome messages are sent; <c>null</c> if none is set.
+                A <see langword="ulong"/> representing the snowflake identifier of the system channel where randomized
+                welcome messages are sent; <see langword="null" /> if none is set.
+            </returns>
+        </member>
+        <member name="P:Discord.IGuild.RulesChannelId">
+            <summary>
+                Gets the ID of the channel with the rules.
+            </summary>
+            <returns>
+                A <see langword="ulong"/> representing the snowflake identifier of the channel that contains the rules;
+                <see langword="null" /> if none is set.
+            </returns>
+        </member>
+        <member name="P:Discord.IGuild.PublicUpdatesChannelId">
+            <summary>
+                Gets the ID of the channel where admins and moderators of Community guilds receive notices from Discord.
+            </summary>
+            <returns>
+                A <see langword="ulong"/> representing the snowflake identifier of the channel where admins and moderators
+                of Community guilds  receive notices from Discord; <see langword="null" /> if none is set.
             </returns>
         </member>
         <member name="P:Discord.IGuild.OwnerId">
@@ -2525,7 +2688,7 @@
                 Gets the ID of the user that owns this guild.
             </summary>
             <returns>
-                A <see cref="T:System.UInt64"/> representing the snowflake identifier of the user that owns this guild.
+                A <see langword="ulong"/> representing the snowflake identifier of the user that owns this guild.
             </returns>
         </member>
         <member name="P:Discord.IGuild.ApplicationId">
@@ -2533,7 +2696,7 @@
                 Gets the application ID of the guild creator if it is bot-created.
             </summary>
             <returns>
-                A <see cref="T:System.UInt64"/> representing the snowflake identifier of the application ID that created this guild, or <c>null</c> if it was not bot-created.
+                A <see langword="ulong"/> representing the snowflake identifier of the application ID that created this guild, or <see langword="null" /> if it was not bot-created.
             </returns>
         </member>
         <member name="P:Discord.IGuild.VoiceRegionId">
@@ -2597,7 +2760,7 @@
                 Gets the identifier for this guilds banner image.
             </summary>
             <returns>
-                An identifier for the banner image; <c>null</c> if none is set.
+                An identifier for the banner image; <see langword="null" /> if none is set.
             </returns>
         </member>
         <member name="P:Discord.IGuild.BannerUrl">
@@ -2605,7 +2768,7 @@
                 Gets the URL of this guild's banner image.
             </summary>
             <returns>
-                A URL pointing to the guild's banner image; <c>null</c> if none is set.
+                A URL pointing to the guild's banner image; <see langword="null" /> if none is set.
             </returns>
         </member>
         <member name="P:Discord.IGuild.VanityURLCode">
@@ -2613,7 +2776,7 @@
                 Gets the code for this guild's vanity invite URL.
             </summary>
             <returns>
-                A string containing the vanity invite code for this guild; <c>null</c> if none is set.
+                A string containing the vanity invite code for this guild; <see langword="null" /> if none is set.
             </returns>
         </member>
         <member name="P:Discord.IGuild.SystemChannelFlags">
@@ -2629,7 +2792,7 @@
                 Gets the description for the guild.
             </summary>
             <returns>
-                The description for the guild; <c>null</c> if none is set.
+                The description for the guild; <see langword="null" /> if none is set.
             </returns>
         </member>
         <member name="P:Discord.IGuild.PremiumSubscriptionCount">
@@ -2640,7 +2803,53 @@
                 This is the number of users who have boosted this guild.
             </remarks>
             <returns>
-                The number of premium subscribers of this guild.
+                The number of premium subscribers of this guild; <see langword="null" /> if not available.
+            </returns>
+        </member>
+        <member name="P:Discord.IGuild.MaxPresences">
+            <summary>
+                Gets the maximum number of presences for the guild.
+            </summary>
+            <returns>
+                The maximum number of presences for the guild.
+            </returns>
+        </member>
+        <member name="P:Discord.IGuild.MaxMembers">
+            <summary>
+                Gets the maximum number of members for the guild.
+            </summary>
+            <returns>
+                The maximum number of members for the guild.
+            </returns>
+        </member>
+        <member name="P:Discord.IGuild.MaxVideoChannelUsers">
+            <summary>
+                Gets the maximum amount of users in a video channel.
+            </summary>
+            <returns>
+                The maximum amount of users in a video channel.
+            </returns>
+        </member>
+        <member name="P:Discord.IGuild.ApproximateMemberCount">
+            <summary>
+                Gets the approximate number of members in this guild.
+            </summary>
+            <remarks>
+                Only available when getting a guild via REST when `with_counts` is true.
+            </remarks>
+            <returns>
+                The approximate number of members in this guild.
+            </returns>
+        </member>
+        <member name="P:Discord.IGuild.ApproximatePresenceCount">
+            <summary>
+                Gets the approximate number of non-offline members in this guild.
+            </summary>
+            <remarks>
+                Only available when getting a guild via REST when `with_counts` is true.
+            </remarks>
+            <returns>
+                The approximate number of non-offline members in this guild.
             </returns>
         </member>
         <member name="P:Discord.IGuild.PreferredLocale">
@@ -2674,6 +2883,16 @@
         <member name="M:Discord.IGuild.ModifyEmbedAsync(System.Action{Discord.GuildEmbedProperties},Discord.RequestOptions)">
             <summary>
                 Modifies this guild's embed channel.
+            </summary>
+            <param name="func">The delegate containing the properties to modify the guild widget with.</param>
+            <param name="options">The options to be used when sending the request.</param>
+            <returns>
+                A task that represents the asynchronous modification operation.
+            </returns>
+        </member>
+        <member name="M:Discord.IGuild.ModifyWidgetAsync(System.Action{Discord.GuildWidgetProperties},Discord.RequestOptions)">
+            <summary>
+                Modifies this guild's widget.
             </summary>
             <param name="func">The delegate containing the properties to modify the guild widget with.</param>
             <param name="options">The options to be used when sending the request.</param>
@@ -2735,7 +2954,7 @@
             <param name="options">The options to be used when sending the request.</param>
             <returns>
                 A task that represents the asynchronous get operation. The task result contains a ban object, which
-                contains the user information and the reason for the ban; <c>null</c> if the ban entry cannot be found.
+                contains the user information and the reason for the ban; <see langword="null" /> if the ban entry cannot be found.
             </returns>
         </member>
         <member name="M:Discord.IGuild.GetBanAsync(System.UInt64,Discord.RequestOptions)">
@@ -2746,7 +2965,7 @@
             <param name="options">The options to be used when sending the request.</param>
             <returns>
                 A task that represents the asynchronous get operation. The task result contains a ban object, which
-                contains the user information and the reason for the ban; <c>null</c> if the ban entry cannot be found.
+                contains the user information and the reason for the ban; <see langword="null" /> if the ban entry cannot be found.
             </returns>
         </member>
         <member name="M:Discord.IGuild.AddBanAsync(Discord.IUser,System.Int32,System.String,Discord.RequestOptions)">
@@ -2815,7 +3034,7 @@
             <param name="options">The options to be used when sending the request.</param>
             <returns>
                 A task that represents the asynchronous get operation. The task result contains the generic channel
-                associated with the specified <paramref name="id"/>; <c>null</c> if none is found.
+                associated with the specified <paramref name="id"/>; <see langword="null" /> if none is found.
             </returns>
         </member>
         <member name="M:Discord.IGuild.GetTextChannelsAsync(Discord.CacheMode,Discord.RequestOptions)">
@@ -2838,7 +3057,7 @@
             <param name="options">The options to be used when sending the request.</param>
             <returns>
                 A task that represents the asynchronous get operation. The task result contains the text channel
-                associated with the specified <paramref name="id"/>; <c>null</c> if none is found.
+                associated with the specified <paramref name="id"/>; <see langword="null" /> if none is found.
             </returns>
         </member>
         <member name="M:Discord.IGuild.GetVoiceChannelsAsync(Discord.CacheMode,Discord.RequestOptions)">
@@ -2872,7 +3091,7 @@
             <param name="options">The options to be used when sending the request.</param>
             <returns>
                 A task that represents the asynchronous get operation. The task result contains the voice channel associated
-                with the specified <paramref name="id"/>; <c>null</c> if none is found.
+                with the specified <paramref name="id"/>; <see langword="null" /> if none is found.
             </returns>
         </member>
         <member name="M:Discord.IGuild.GetAFKChannelAsync(Discord.CacheMode,Discord.RequestOptions)">
@@ -2883,7 +3102,7 @@
             <param name="options">The options to be used when sending the request.</param>
             <returns>
                 A task that represents the asynchronous get operation. The task result contains the voice channel that the
-                AFK users will be moved to after they have idled for too long; <c>null</c> if none is set.
+                AFK users will be moved to after they have idled for too long; <see langword="null" /> if none is set.
             </returns>
         </member>
         <member name="M:Discord.IGuild.GetSystemChannelAsync(Discord.CacheMode,Discord.RequestOptions)">
@@ -2894,7 +3113,7 @@
             <param name="options">The options to be used when sending the request.</param>
             <returns>
                 A task that represents the asynchronous get operation. The task result contains the text channel where
-                randomized welcome messages will be sent to; <c>null</c> if none is set.
+                randomized welcome messages will be sent to; <see langword="null" /> if none is set.
             </returns>
         </member>
         <member name="M:Discord.IGuild.GetDefaultChannelAsync(Discord.CacheMode,Discord.RequestOptions)">
@@ -2905,7 +3124,7 @@
             <param name="options">The options to be used when sending the request.</param>
             <returns>
                 A task that represents the asynchronous get operation. The task result contains the first viewable text
-                channel in this guild; <c>null</c> if none is found.
+                channel in this guild; <see langword="null" /> if none is found.
             </returns>
         </member>
         <member name="M:Discord.IGuild.GetEmbedChannelAsync(Discord.CacheMode,Discord.RequestOptions)">
@@ -2916,7 +3135,40 @@
             <param name="options">The options to be used when sending the request.</param>
             <returns>
                 A task that represents the asynchronous get operation. The task result contains the embed channel set
-                within the server's widget settings; <c>null</c> if none is set.
+                within the server's widget settings; <see langword="null" /> if none is set.
+            </returns>
+        </member>
+        <member name="M:Discord.IGuild.GetWidgetChannelAsync(Discord.CacheMode,Discord.RequestOptions)">
+            <summary>
+                Gets the widget channel (i.e. the channel set in the guild's widget settings) in this guild.
+            </summary>
+            <param name="mode">The <see cref="T:Discord.CacheMode" /> that determines whether the object should be fetched from cache.</param>
+            <param name="options">The options to be used when sending the request.</param>
+            <returns>
+                A task that represents the asynchronous get operation. The task result contains the widget channel set
+                within the server's widget settings; <see langword="null" /> if none is set.
+            </returns>
+        </member>
+        <member name="M:Discord.IGuild.GetRulesChannelAsync(Discord.CacheMode,Discord.RequestOptions)">
+            <summary>
+                Gets the text channel where Community guilds can display rules and/or guidelines.
+            </summary>
+            <param name="mode">The <see cref="T:Discord.CacheMode"/> that determines whether the object should be fetched from cache.</param>
+            <param name="options">The options to be used when sending the request.</param>
+            <returns>
+                A task that represents the asynchronous get operation. The task result contains the text channel
+                where Community guilds can display rules and/or guidelines; <see langword="null" /> if none is set.
+            </returns>
+        </member>
+        <member name="M:Discord.IGuild.GetPublicUpdatesChannelAsync(Discord.CacheMode,Discord.RequestOptions)">
+            <summary>
+                Gets the text channel channel where admins and moderators of Community guilds receive notices from Discord.
+            </summary>
+            <param name="mode">The <see cref="T:Discord.CacheMode"/> that determines whether the object should be fetched from cache.</param>
+            <param name="options">The options to be used when sending the request.</param>
+            <returns>
+                A task that represents the asynchronous get operation. The task result contains the text channel channel where
+                admins and moderators of Community guilds receive notices from Discord; <see langword="null" /> if none is set.
             </returns>
         </member>
         <member name="M:Discord.IGuild.CreateTextChannelAsync(System.String,System.Action{Discord.TextChannelProperties},Discord.RequestOptions)">
@@ -2987,7 +3239,7 @@
             <param name="options">The options to be used when sending the request.</param>
             <returns>
                 A task that represents the asynchronous get operation. The task result contains the partial metadata of
-                the vanity invite found within this guild; <c>null</c> if none is found.
+                the vanity invite found within this guild; <see langword="null" /> if none is found.
             </returns>
         </member>
         <member name="M:Discord.IGuild.GetRole(System.UInt64)">
@@ -2996,7 +3248,7 @@
             </summary>
             <param name="id">The snowflake identifier for the role.</param>
             <returns>
-                A role that is associated with the specified <paramref name="id"/>; <c>null</c> if none is found.
+                A role that is associated with the specified <paramref name="id"/>; <see langword="null" /> if none is found.
             </returns>
         </member>
         <member name="M:Discord.IGuild.CreateRoleAsync(System.String,System.Nullable{Discord.GuildPermissions},System.Nullable{Discord.Color},System.Boolean,Discord.RequestOptions)">
@@ -3039,7 +3291,7 @@
             <param name="accessToken">The OAuth2 access token for the user, requested with the guilds.join scope.</param>
             <param name="func">The delegate containing the properties to be applied to the user upon being added to the guild.</param>
             <param name="options">The options to be used when sending the request.</param>
-            <returns>A guild user associated with the specified <paramref name="userId" />; <c>null</c> if the user is already in the guild.</returns>
+            <returns>A guild user associated with the specified <paramref name="userId" />; <see langword="null" /> if the user is already in the guild.</returns>
         </member>
         <member name="M:Discord.IGuild.GetUsersAsync(Discord.CacheMode,Discord.RequestOptions)">
             <summary>
@@ -3066,7 +3318,7 @@
             <remarks>
                 This method retrieves a user found within this guild.
                 <note>
-                    This may return <c>null</c> in the WebSocket implementation due to incomplete user collection in
+                    This may return <see langword="null" /> in the WebSocket implementation due to incomplete user collection in
                     large guilds.
                 </note>
             </remarks>
@@ -3075,7 +3327,7 @@
             <param name="options">The options to be used when sending the request.</param>
             <returns>
                 A task that represents the asynchronous get operation. The task result contains the guild user
-                associated with the specified <paramref name="id"/>; <c>null</c> if none is found.
+                associated with the specified <paramref name="id"/>; <see langword="null" /> if none is found.
             </returns>
         </member>
         <member name="M:Discord.IGuild.GetCurrentUserAsync(Discord.CacheMode,Discord.RequestOptions)">
@@ -3110,7 +3362,7 @@
                 A task that represents the asynchronous download operation.
             </returns>
         </member>
-        <member name="M:Discord.IGuild.PruneUsersAsync(System.Int32,System.Boolean,Discord.RequestOptions)">
+        <member name="M:Discord.IGuild.PruneUsersAsync(System.Int32,System.Boolean,Discord.RequestOptions,System.Collections.Generic.IEnumerable{System.UInt64})">
             <summary>
                 Prunes inactive users.
             </summary>
@@ -3126,6 +3378,7 @@
             <param name="days">The number of days required for the users to be kicked.</param>
             <param name="simulate">Whether this prune action is a simulation.</param>
             <param name="options">The options to be used when sending the request.</param>
+            <param name="includeRoleIds">An array of role IDs to be included in the prune of users who do not have any additional roles.</param>
             <returns>
                 A task that represents the asynchronous prune operation. The task result contains the number of users to
                 be or has been removed from this guild.
@@ -3171,7 +3424,7 @@
             <param name="options">The options to be used when sending the request.</param>
             <returns>
                 A task that represents the asynchronous get operation. The task result contains the webhook with the
-                specified <paramref name="id"/>; <c>null</c> if none is found.
+                specified <paramref name="id"/>; <see langword="null" /> if none is found.
             </returns>
         </member>
         <member name="M:Discord.IGuild.GetWebhooksAsync(Discord.RequestOptions)">
@@ -3192,7 +3445,7 @@
             <param name="options">The options to be used when sending the request.</param>
             <returns>
                 A task that represents the asynchronous get operation. The task result contains the emote found with the
-                specified <paramref name="id"/>; <c>null</c> if none is found.
+                specified <paramref name="id"/>; <see langword="null" /> if none is found.
             </returns>
         </member>
         <member name="M:Discord.IGuild.CreateEmoteAsync(System.String,Discord.Image,Discord.Optional{System.Collections.Generic.IEnumerable{Discord.IRole}},Discord.RequestOptions)">
@@ -3503,6 +3756,21 @@
                 Gets the icon URL of the application.
             </summary>
         </member>
+        <member name="P:Discord.IApplication.IsBotPublic">
+            <summary>
+                Gets if the bot is public.
+            </summary>
+        </member>
+        <member name="P:Discord.IApplication.BotRequiresCodeGrant">
+            <summary>
+                Gets if the bot requires code grant.
+            </summary>
+        </member>
+        <member name="P:Discord.IApplication.Team">
+            <summary>
+                Gets the team associated with this application if there is one.
+            </summary>
+        </member>
         <member name="P:Discord.IApplication.Owner">
             <summary>
                 Gets the partial user object containing info on the owner of the application.
@@ -3775,6 +4043,16 @@
                 A <see cref="T:System.DateTimeOffset"/> representing the time of which the invite was first created.
             </returns>
         </member>
+        <member name="F:Discord.TargetUserType.Undefined">
+            <summary>
+                The invite whose target user type is not defined.
+            </summary>
+        </member>
+        <member name="F:Discord.TargetUserType.Stream">
+            <summary>
+                The invite is for a Go Live stream.
+            </summary>
+        </member>
         <member name="T:Discord.ISnowflakeEntity">
             <summary> Represents a Discord snowflake entity. </summary>
         </member>
@@ -3795,6 +4073,7 @@
             <summary>
                 Updates this object's properties with its current state.
             </summary>
+            <param name="options">The options to be used when sending the request.</param>
         </member>
         <member name="T:Discord.AllowedMentions">
             <summary>
@@ -4943,6 +5222,14 @@
                 <c>true</c> if the embeds in this message have been suppressed (made invisible); otherwise <c>false</c>.
             </returns>
         </member>
+        <member name="P:Discord.IMessage.MentionedEveryone">
+            <summary>
+                Gets the value that indicates whether this message mentioned everyone.
+            </summary>
+            <returns>
+                <c>true</c> if this message mentioned everyone; otherwise <c>false</c>.
+            </returns>
+        </member>
         <member name="P:Discord.IMessage.Content">
             <summary>
                 Gets the content for this message.
@@ -5820,6 +6107,11 @@
                 authentication when used on a guild that has server-wide 2FA enabled.
             </remarks>
         </member>
+        <member name="F:Discord.GuildPermission.ViewGuildInsights">
+            <summary>
+                Allows for viewing of guild insights
+            </summary>
+        </member>
         <member name="F:Discord.GuildPermission.AddReactions">
             <summary>
                 Allows for the addition of reactions to messages.
@@ -5978,6 +6270,9 @@
         <member name="P:Discord.GuildPermissions.ViewAuditLog">
             <summary> If <c>true</c>, a user may view the audit log. </summary>
         </member>
+        <member name="P:Discord.GuildPermissions.ViewGuildInsights">
+            <summary> If <c>true</c>, a user may view the guild insights. </summary>
+        </member>
         <member name="P:Discord.GuildPermissions.ReadMessages">
             <summary> If True, a user may join channels. </summary>
         </member>
@@ -6050,10 +6345,10 @@
         <member name="M:Discord.GuildPermissions.#ctor(System.UInt64)">
             <summary> Creates a new <see cref="T:Discord.GuildPermissions"/> with the provided packed value. </summary>
         </member>
-        <member name="M:Discord.GuildPermissions.#ctor(System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
+        <member name="M:Discord.GuildPermissions.#ctor(System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
             <summary> Creates a new <see cref="T:Discord.GuildPermissions"/> structure with the provided permissions. </summary>
         </member>
-        <member name="M:Discord.GuildPermissions.Modify(System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
+        <member name="M:Discord.GuildPermissions.Modify(System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
             <summary> Creates a new <see cref="T:Discord.GuildPermissions"/> from this one, changing the provided non-null permissions. </summary>
         </member>
         <member name="M:Discord.GuildPermissions.Has(Discord.GuildPermission)">
@@ -6185,6 +6480,12 @@
         <member name="P:Discord.OverwritePermissions.UseVAD">
             <summary> If Allowed, a user may use voice-activity-detection rather than push-to-talk. </summary>
         </member>
+        <member name="P:Discord.OverwritePermissions.PrioritySpeaker">
+            <summary> If Allowed, a user may use priority speaker in a voice channel. </summary>
+        </member>
+        <member name="P:Discord.OverwritePermissions.Stream">
+            <summary> If Allowed, a user may go live in a voice channel. </summary>
+        </member>
         <member name="P:Discord.OverwritePermissions.ManageRoles">
             <summary> If Allowed, a user may adjust role permissions. This also implicitly grants all other permissions. </summary>
         </member>
@@ -6194,12 +6495,12 @@
         <member name="M:Discord.OverwritePermissions.#ctor(System.UInt64,System.UInt64)">
             <summary> Creates a new OverwritePermissions with the provided allow and deny packed values. </summary>
         </member>
-        <member name="M:Discord.OverwritePermissions.#ctor(Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue)">
+        <member name="M:Discord.OverwritePermissions.#ctor(Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue,Discord.PermValue)">
             <summary>
                 Initializes a new <see cref="T:Discord.ChannelPermissions"/> struct with the provided permissions.
             </summary>
         </member>
-        <member name="M:Discord.OverwritePermissions.Modify(System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue})">
+        <member name="M:Discord.OverwritePermissions.Modify(System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue},System.Nullable{Discord.PermValue})">
             <summary>
                 Initializes a new <see cref="T:Discord.OverwritePermissions" /> from the current one, changing the provided
                 non-null permissions.
@@ -6575,6 +6876,61 @@
                 This value may not be set if the role is an @everyone role.
             </remarks>
         </member>
+        <member name="T:Discord.ITeam">
+            <summary>
+                Represents a Discord Team.
+            </summary>
+        </member>
+        <member name="P:Discord.ITeam.IconUrl">
+            <summary>
+                Gets the team icon url.
+            </summary>
+        </member>
+        <member name="P:Discord.ITeam.Id">
+            <summary>
+                Gets the team unique identifier.
+            </summary>
+        </member>
+        <member name="P:Discord.ITeam.TeamMembers">
+            <summary>
+                Gets the members of this team.
+            </summary>
+        </member>
+        <member name="P:Discord.ITeam.OwnerUserId">
+            <summary>
+                Gets the user identifier that owns this team.
+            </summary>
+        </member>
+        <member name="T:Discord.ITeamMember">
+            <summary>
+                Represents a Discord Team member.
+            </summary>
+        </member>
+        <member name="P:Discord.ITeamMember.MembershipState">
+            <summary>
+                Gets the membership state of this team member.
+            </summary>
+        </member>
+        <member name="P:Discord.ITeamMember.Permissions">
+            <summary>
+                Gets the permissions of this team member.
+            </summary>
+        </member>
+        <member name="P:Discord.ITeamMember.TeamId">
+            <summary>
+                Gets the team unique identifier for this team member.
+            </summary>
+        </member>
+        <member name="P:Discord.ITeamMember.User">
+            <summary>
+                Gets the Discord user of this team member.
+            </summary>
+        </member>
+        <member name="T:Discord.MembershipState">
+            <summary>
+                Represents the membership state of a team member.
+            </summary>
+        </member>
         <member name="T:Discord.AddGuildUserProperties">
             <summary>
                 Properties that are used to add a new <see cref="T:Discord.IGuildUser"/> to the guild with the following parameters.
@@ -6931,6 +7287,11 @@
         <member name="P:Discord.IPresence.ActiveClients">
             <summary>
                 Gets the set of clients where this user is currently active.
+            </summary>
+        </member>
+        <member name="P:Discord.IPresence.Activities">
+            <summary>
+                Gets the list of activities that this user currently has available.
             </summary>
         </member>
         <member name="T:Discord.ISelfUser">
@@ -8054,6 +8415,16 @@
                 that represents the number of shards that should be used with this account.
             </returns>
         </member>
+        <member name="M:Discord.IDiscordClient.GetBotGatewayAsync(Discord.RequestOptions)">
+            <summary>
+                Gets the gateway information related to the bot.
+            </summary>
+            <param name="options">The options to be used when sending the request.</param>
+            <returns>
+                A task that represents the asynchronous get operation. The task result contains a <see cref="T:Discord.BotGateway"/>
+                that represents the gateway information related to the bot.
+            </returns>
+        </member>
         <member name="T:Discord.LogMessage">
             <summary>
                 Provides a message object used for logging purposes.
@@ -8152,6 +8523,80 @@
         <member name="F:Discord.LoginState.LoggingOut">
             <summary> The client is currently logging out. </summary>
         </member>
+        <member name="T:Discord.Net.BucketId">
+            <summary>
+                Represents a ratelimit bucket.
+            </summary>
+        </member>
+        <member name="P:Discord.Net.BucketId.HttpMethod">
+            <summary>
+                Gets the http method used to make the request if available.
+            </summary>
+        </member>
+        <member name="P:Discord.Net.BucketId.Endpoint">
+            <summary>
+                Gets the endpoint that is going to be requested if available.
+            </summary>
+        </member>
+        <member name="P:Discord.Net.BucketId.MajorParameters">
+            <summary>
+                Gets the major parameters of the route.
+            </summary>
+        </member>
+        <member name="P:Discord.Net.BucketId.BucketHash">
+            <summary>
+                Gets the hash of this bucket.
+            </summary>
+            <remarks>
+                The hash is provided by Discord to group ratelimits.
+            </remarks>
+        </member>
+        <member name="P:Discord.Net.BucketId.IsHashBucket">
+            <summary>
+                Gets if this bucket is a hash type.
+            </summary>
+        </member>
+        <member name="M:Discord.Net.BucketId.Create(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+                Creates a new <see cref="T:Discord.Net.BucketId"/> based on the
+                <see cref="P:Discord.Net.BucketId.HttpMethod"/> and <see cref="P:Discord.Net.BucketId.Endpoint"/>.
+            </summary>
+            <param name="httpMethod">Http method used to make the request.</param>
+            <param name="endpoint">Endpoint that is going to receive requests.</param>
+            <param name="majorParams">Major parameters of the route of this endpoint.</param>
+            <returns>
+                A <see cref="T:Discord.Net.BucketId"/> based on the <see cref="P:Discord.Net.BucketId.HttpMethod"/>
+                and the <see cref="P:Discord.Net.BucketId.Endpoint"/> with the provided data.
+            </returns>
+        </member>
+        <member name="M:Discord.Net.BucketId.Create(System.String,Discord.Net.BucketId)">
+            <summary>
+                Creates a new <see cref="T:Discord.Net.BucketId"/> based on a
+                <see cref="P:Discord.Net.BucketId.BucketHash"/> and a previous <see cref="T:Discord.Net.BucketId"/>.
+            </summary>
+            <param name="hash">Bucket hash provided by Discord.</param>
+            <param name="oldBucket"><see cref="T:Discord.Net.BucketId"/> that is going to be upgraded to a hash type.</param>
+            <returns>
+                A <see cref="T:Discord.Net.BucketId"/> based on the <see cref="P:Discord.Net.BucketId.BucketHash"/>
+                and <see cref="P:Discord.Net.BucketId.MajorParameters"/>.
+            </returns>
+        </member>
+        <member name="M:Discord.Net.BucketId.GetBucketHash">
+            <summary>
+                Gets the string that will define this bucket as a hash based one.
+            </summary>
+            <returns>
+                A <see cref="T:System.String"/> that defines this bucket as a hash based one.
+            </returns>
+        </member>
+        <member name="M:Discord.Net.BucketId.GetUniqueEndpoint">
+            <summary>
+                Gets the string that will define this bucket as an endpoint based one.
+            </summary>
+            <returns>
+                A <see cref="T:System.String"/> that defines this bucket as an endpoint based one.
+            </returns>
+        </member>
         <member name="T:Discord.Net.HttpException">
             <summary>
                 The exception that is thrown if an error occurs while processing an Discord HTTP request.
@@ -8163,7 +8608,7 @@
             </summary>
             <returns>
                 An 
-                <see href="https://discordapp.com/developers/docs/topics/opcodes-and-status-codes#http">HTTP status code</see>
+                <see href="https://discord.com/developers/docs/topics/opcodes-and-status-codes#http">HTTP status code</see>
                 from Discord.
             </returns>
         </member>
@@ -8173,7 +8618,7 @@
             </summary>
             <returns>
                 A 
-                <see href="https://discordapp.com/developers/docs/topics/opcodes-and-status-codes#json">JSON error code</see>
+                <see href="https://discord.com/developers/docs/topics/opcodes-and-status-codes#json">JSON error code</see>
                 from Discord, or <c>null</c> if none.
             </returns>
         </member>
@@ -8257,7 +8702,7 @@
             </summary>
             <returns>
                 A 
-                <see href="https://discordapp.com/developers/docs/topics/opcodes-and-status-codes#gateway-gateway-close-event-codes">close code</see>
+                <see href="https://discord.com/developers/docs/topics/opcodes-and-status-codes#gateway-gateway-close-event-codes">close code</see>
                 from Discord.
             </returns>
         </member>

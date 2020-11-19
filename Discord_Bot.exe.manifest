@@ -3,7 +3,7 @@
   <asmv1:assemblyIdentity name="Discord_Bot.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="Discord_Bot" version="0.10.9.2" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="Discord_Bot" version="0.10.10.0" language="neutral" processorArchitecture="msil" />
     <commandLine file="Discord_Bot.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -49,91 +49,91 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>nx3G9vVw4DThZFN5VD0TnyEGzSAojSZH+xeU+1Ds/q4=</dsig:DigestValue>
+        <dsig:DigestValue>vYRDrRLCyF5+vY6X9P7sR1yCE78r4br80Dmo+wAjeiw=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Discord.Net.Core.dll" size="163328">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Discord.Net.Core.dll" size="169984">
       <assemblyIdentity name="Discord.Net.Core" version="2.3.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>WUo/3N3LDXXlomV08xYnIfO67qOnYfN94M8/YopPV8U=</dsig:DigestValue>
+        <dsig:DigestValue>0/pSMf+YjnURhIeRqQpjodXAkQPiZXSpIEyAjPnDhHw=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Discord.Net.Providers.WS4Net.dll" size="12800">
-      <assemblyIdentity name="Discord.Net.Providers.WS4Net" version="2.2.0.0" language="neutral" processorArchitecture="msil" />
+      <assemblyIdentity name="Discord.Net.Providers.WS4Net" version="2.3.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>zSNVaElvq9eyeSU/GzgXAPSjC/GMbpRLBV6IsoQ4PvI=</dsig:DigestValue>
+        <dsig:DigestValue>+U0jQttp4XqmDna11QAahWEIj2iLE6CqFEdRDnKqqcg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Discord.Net.Rest.dll" size="593920">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Discord.Net.Rest.dll" size="627200">
       <assemblyIdentity name="Discord.Net.Rest" version="2.3.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>n0vBP1zJj9QVt9xm7POdKSis+SkMRfZkiiYE23PYbEA=</dsig:DigestValue>
+        <dsig:DigestValue>9091aBwoVpvMSweiTcFWQMN7cUgfbSCqLQ52J80bTh4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Discord.Net.Rpc.dll" size="156672">
-      <assemblyIdentity name="Discord.Net.Rpc" version="1.0.2.0" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Discord.Net.Rpc.dll" size="159744">
+      <assemblyIdentity name="Discord.Net.Rpc" version="2.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>xXHcqTqBLhWFZpEnbBN87wcAP9tq1BYSO29UR0WoJsg=</dsig:DigestValue>
+        <dsig:DigestValue>4JhL7BPsSeEqJshzUguZ4Lr6wDXXQXBS4v2Re2Xtc/s=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Discord.Net.Webhook.dll" size="22528">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Discord.Net.Webhook.dll" size="23040">
       <assemblyIdentity name="Discord.Net.Webhook" version="2.3.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>SkWXpBQ/0FfYW9dk+o1sA1j2YRzNgfFKTMm8oY1yzks=</dsig:DigestValue>
+        <dsig:DigestValue>3qpqBq7+MPPfX5ak3xblAoXEokY+VzQXCC+VxrbYRFM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Discord.Net.WebSocket.dll" size="410112">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Discord.Net.WebSocket.dll" size="426496">
       <assemblyIdentity name="Discord.Net.WebSocket" version="2.3.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>mD4S5+dC9R4OWF/hYA81GhasBi5n6XiL9uCmYppZZ80=</dsig:DigestValue>
+        <dsig:DigestValue>KfehdtWHlxIzwe684ZFO+fXQwEFxnvBZBtOvSnQwW0Y=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Discord_Bot.exe" size="214496">
-      <assemblyIdentity name="Discord_Bot" version="0.10.9.2" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Discord_Bot.exe" size="217568">
+      <assemblyIdentity name="Discord_Bot" version="0.10.10.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>/eiemiM9aKrVRd3pii+Rejo9ss3zuSXM9VrDpAZn6cA=</dsig:DigestValue>
+        <dsig:DigestValue>KKplTm+11Qk3upV1Inkh/4scVmj2be+z/ciZPeYth9Y=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
