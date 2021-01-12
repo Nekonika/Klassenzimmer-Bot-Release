@@ -1639,10 +1639,10 @@
             <paramref name="maxAge"/> must be lesser than 86400.
             </exception>
         </member>
-        <member name="M:Discord.Rest.ChannelHelper.SendMessageAsync(Discord.IMessageChannel,Discord.Rest.BaseDiscordClient,System.String,System.Boolean,Discord.Embed,Discord.AllowedMentions,Discord.RequestOptions)">
+        <member name="M:Discord.Rest.ChannelHelper.SendMessageAsync(Discord.IMessageChannel,Discord.Rest.BaseDiscordClient,System.String,System.Boolean,Discord.Embed,Discord.AllowedMentions,Discord.MessageReference,Discord.RequestOptions)">
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
-        <member name="M:Discord.Rest.ChannelHelper.SendFileAsync(Discord.IMessageChannel,Discord.Rest.BaseDiscordClient,System.String,System.String,System.Boolean,Discord.Embed,Discord.AllowedMentions,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.Rest.ChannelHelper.SendFileAsync(Discord.IMessageChannel,Discord.Rest.BaseDiscordClient,System.String,System.String,System.Boolean,Discord.Embed,Discord.AllowedMentions,Discord.MessageReference,Discord.RequestOptions,System.Boolean)">
             <exception cref="T:System.ArgumentException">
             <paramref name="filePath" /> is a zero-length string, contains only white space, or contains one or more
             invalid characters as defined by <see cref="M:System.IO.Path.GetInvalidPathChars"/>.
@@ -1668,7 +1668,7 @@
             <exception cref="T:System.IO.IOException">An I/O error occurred while opening the file.</exception>
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
-        <member name="M:Discord.Rest.ChannelHelper.SendFileAsync(Discord.IMessageChannel,Discord.Rest.BaseDiscordClient,System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.AllowedMentions,Discord.RequestOptions,System.Boolean)">
+        <member name="M:Discord.Rest.ChannelHelper.SendFileAsync(Discord.IMessageChannel,Discord.Rest.BaseDiscordClient,System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.AllowedMentions,Discord.MessageReference,Discord.RequestOptions,System.Boolean)">
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
         <member name="M:Discord.Rest.ChannelHelper.GetUserAsync(Discord.IGuildChannel,Discord.IGuild,Discord.Rest.BaseDiscordClient,System.UInt64,Discord.RequestOptions)">
@@ -1685,12 +1685,12 @@
                 Represents a REST-based channel that can send and receive messages.
             </summary>
         </member>
-        <member name="M:Discord.Rest.IRestMessageChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)">
+        <member name="M:Discord.Rest.IRestMessageChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference)">
             <summary>
                 Sends a message to this message channel.
             </summary>
             <remarks>
-                This method follows the same behavior as described in <see cref="M:Discord.IMessageChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)"/>.
+                This method follows the same behavior as described in <see cref="M:Discord.IMessageChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference)"/>.
                 Please visit its documentation for more details on this method.
             </remarks>
             <param name="text">The message to be sent.</param>
@@ -1701,18 +1701,19 @@
                 Specifies if notifications are sent for mentioned users and roles in the message <paramref name="text"/>.
                 If <c>null</c>, all mentioned roles and users will be notified.
             </param>
+            <param name="messageReference">The message references to be included. Used to reply to specific messages.</param>
             <returns>
                 A task that represents an asynchronous send operation for delivering the message. The task result
                 contains the sent message.
             </returns>
         </member>
-        <member name="M:Discord.Rest.IRestMessageChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
+        <member name="M:Discord.Rest.IRestMessageChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions,Discord.MessageReference)">
             <summary>
                 Sends a file to this message channel with an optional caption.
             </summary>
             <remarks>
                 This method follows the same behavior as described in 
-                <see cref="M:Discord.IMessageChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)"/>. Please visit
+                <see cref="M:Discord.IMessageChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions,Discord.MessageReference)"/>. Please visit
                 its documentation for more details on this method.
             </remarks>
             <param name="filePath">The file path of the file.</param>
@@ -1725,17 +1726,18 @@
                 Specifies if notifications are sent for mentioned users and roles in the message <paramref name="text"/>.
                 If <c>null</c>, all mentioned roles and users will be notified.
             </param>
+            <param name="messageReference">The message references to be included. Used to reply to specific messages.</param>
             <returns>
                 A task that represents an asynchronous send operation for delivering the message. The task result
                 contains the sent message.
             </returns>
         </member>
-        <member name="M:Discord.Rest.IRestMessageChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
+        <member name="M:Discord.Rest.IRestMessageChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions,Discord.MessageReference)">
             <summary>
                 Sends a file to this message channel with an optional caption.
             </summary>
             <remarks>
-                This method follows the same behavior as described in <see cref="M:Discord.IMessageChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)"/>.
+                This method follows the same behavior as described in <see cref="M:Discord.IMessageChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions,Discord.MessageReference)"/>.
                 Please visit its documentation for more details on this method.
             </remarks>
             <param name="stream">The <see cref="T:System.IO.Stream" /> of the file to be sent.</param>
@@ -1749,6 +1751,7 @@
                 Specifies if notifications are sent for mentioned users and roles in the message <paramref name="text"/>.
                 If <c>null</c>, all mentioned roles and users will be notified.
             </param>
+            <param name="messageReference">The message references to be included. Used to reply to specific messages.</param>
             <returns>
                 A task that represents an asynchronous send operation for delivering the message. The task result
                 contains the sent message.
@@ -1928,11 +1931,11 @@
         <member name="M:Discord.Rest.RestDMChannel.GetPinnedMessagesAsync(Discord.RequestOptions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.Rest.RestDMChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)">
+        <member name="M:Discord.Rest.RestDMChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference)">
             <inheritdoc />
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
-        <member name="M:Discord.Rest.RestDMChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
+        <member name="M:Discord.Rest.RestDMChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions,Discord.MessageReference)">
             <inheritdoc />
             <exception cref="T:System.ArgumentException">
             <paramref name="filePath" /> is a zero-length string, contains only white space, or contains one or more
@@ -1959,7 +1962,7 @@
             <exception cref="T:System.IO.IOException">An I/O error occurred while opening the file.</exception>
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
-        <member name="M:Discord.Rest.RestDMChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
+        <member name="M:Discord.Rest.RestDMChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions,Discord.MessageReference)">
             <inheritdoc />
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
@@ -2007,13 +2010,13 @@
         <member name="M:Discord.Rest.RestDMChannel.Discord#IMessageChannel#GetPinnedMessagesAsync(Discord.RequestOptions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.Rest.RestDMChannel.Discord#IMessageChannel#SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
+        <member name="M:Discord.Rest.RestDMChannel.Discord#IMessageChannel#SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions,Discord.MessageReference)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.Rest.RestDMChannel.Discord#IMessageChannel#SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
+        <member name="M:Discord.Rest.RestDMChannel.Discord#IMessageChannel#SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions,Discord.MessageReference)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.Rest.RestDMChannel.Discord#IMessageChannel#SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)">
+        <member name="M:Discord.Rest.RestDMChannel.Discord#IMessageChannel#SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference)">
             <inheritdoc />
         </member>
         <member name="P:Discord.Rest.RestDMChannel.Discord#IChannel#Name">
@@ -2060,11 +2063,11 @@
         <member name="M:Discord.Rest.RestGroupChannel.DeleteMessageAsync(Discord.IMessage,Discord.RequestOptions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.Rest.RestGroupChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)">
+        <member name="M:Discord.Rest.RestGroupChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference)">
             <inheritdoc />
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
-        <member name="M:Discord.Rest.RestGroupChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
+        <member name="M:Discord.Rest.RestGroupChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions,Discord.MessageReference)">
             <inheritdoc />
             <exception cref="T:System.ArgumentException">
             <paramref name="filePath" /> is a zero-length string, contains only white space, or contains one or more
@@ -2091,7 +2094,7 @@
             <exception cref="T:System.IO.IOException">An I/O error occurred while opening the file.</exception>
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
-        <member name="M:Discord.Rest.RestGroupChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
+        <member name="M:Discord.Rest.RestGroupChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions,Discord.MessageReference)">
             <inheritdoc />
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
@@ -2306,11 +2309,11 @@
         <member name="M:Discord.Rest.RestTextChannel.GetPinnedMessagesAsync(Discord.RequestOptions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.Rest.RestTextChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)">
+        <member name="M:Discord.Rest.RestTextChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference)">
             <inheritdoc />
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
-        <member name="M:Discord.Rest.RestTextChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
+        <member name="M:Discord.Rest.RestTextChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions,Discord.MessageReference)">
             <inheritdoc />
             <exception cref="T:System.ArgumentException">
             <paramref name="filePath" /> is a zero-length string, contains only white space, or contains one or more
@@ -2337,7 +2340,7 @@
             <exception cref="T:System.IO.IOException">An I/O error occurred while opening the file.</exception>
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
-        <member name="M:Discord.Rest.RestTextChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
+        <member name="M:Discord.Rest.RestTextChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions,Discord.MessageReference)">
             <inheritdoc />
             <exception cref="T:System.ArgumentOutOfRangeException">Message content is too long, length must be less or equal to <see cref="F:Discord.DiscordConfig.MaxMessageSize"/>.</exception>
         </member>
@@ -2435,13 +2438,13 @@
         <member name="M:Discord.Rest.RestTextChannel.Discord#IMessageChannel#GetPinnedMessagesAsync(Discord.RequestOptions)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.Rest.RestTextChannel.Discord#IMessageChannel#SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
+        <member name="M:Discord.Rest.RestTextChannel.Discord#IMessageChannel#SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions,Discord.MessageReference)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.Rest.RestTextChannel.Discord#IMessageChannel#SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
+        <member name="M:Discord.Rest.RestTextChannel.Discord#IMessageChannel#SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions,Discord.MessageReference)">
             <inheritdoc />
         </member>
-        <member name="M:Discord.Rest.RestTextChannel.Discord#IMessageChannel#SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)">
+        <member name="M:Discord.Rest.RestTextChannel.Discord#IMessageChannel#SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference)">
             <inheritdoc />
         </member>
         <member name="M:Discord.Rest.RestTextChannel.Discord#IGuildChannel#GetUserAsync(System.UInt64,Discord.CacheMode,Discord.RequestOptions)">
@@ -3391,6 +3394,15 @@
         <member name="P:Discord.Rest.RestInvite.GuildId">
             <inheritdoc />
         </member>
+        <member name="P:Discord.Rest.RestInvite.Inviter">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.Rest.RestInvite.TargetUser">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.Rest.RestInvite.TargetUserType">
+            <inheritdoc />
+        </member>
         <member name="P:Discord.Rest.RestInvite.Code">
             <inheritdoc />
         </member>
@@ -3435,15 +3447,7 @@
         <member name="P:Discord.Rest.RestInviteMetadata.Uses">
             <inheritdoc />
         </member>
-        <member name="P:Discord.Rest.RestInviteMetadata.Inviter">
-            <summary>
-                Gets the user that created this invite.
-            </summary>
-        </member>
         <member name="P:Discord.Rest.RestInviteMetadata.CreatedAt">
-            <inheritdoc />
-        </member>
-        <member name="P:Discord.Rest.RestInviteMetadata.Discord#IInviteMetadata#Inviter">
             <inheritdoc />
         </member>
         <member name="F:Discord.Rest.MessageHelper.InlineCodeRegex">
@@ -3531,6 +3535,9 @@
             <inheritdoc />
         </member>
         <member name="P:Discord.Rest.RestMessage.Reference">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.Rest.RestMessage.Flags">
             <inheritdoc />
         </member>
         <member name="M:Discord.Rest.RestMessage.UpdateAsync(Discord.RequestOptions)">
@@ -3644,6 +3651,9 @@
         <member name="P:Discord.Rest.RestUserMessage.Tags">
             <inheritdoc />
         </member>
+        <member name="P:Discord.Rest.RestUserMessage.ReferencedMessage">
+            <inheritdoc />
+        </member>
         <member name="M:Discord.Rest.RestUserMessage.ModifyAsync(System.Action{Discord.MessageProperties},Discord.RequestOptions)">
             <inheritdoc />
         </member>
@@ -3733,6 +3743,9 @@
             <inheritdoc />
         </member>
         <member name="P:Discord.Rest.RestRole.Position">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.Rest.RestRole.Tags">
             <inheritdoc />
         </member>
         <member name="P:Discord.Rest.RestRole.CreatedAt">
@@ -3859,6 +3872,9 @@
         <member name="P:Discord.Rest.RestGuildUser.GuildId">
             <inheritdoc />
         </member>
+        <member name="P:Discord.Rest.RestGuildUser.IsPending">
+            <inheritdoc />
+        </member>
         <member name="P:Discord.Rest.RestGuildUser.GuildPermissions">
             <inheritdoc />
             <exception cref="T:System.InvalidOperationException" accessor="get">Resolving permissions requires the parent guild to be downloaded.</exception>
@@ -3966,6 +3982,9 @@
         <member name="P:Discord.Rest.RestUser.AvatarId">
             <inheritdoc />
         </member>
+        <member name="P:Discord.Rest.RestUser.PublicFlags">
+            <inheritdoc />
+        </member>
         <member name="P:Discord.Rest.RestUser.CreatedAt">
             <inheritdoc />
         </member>
@@ -4041,6 +4060,9 @@
             <inheritdoc />
         </member>
         <member name="P:Discord.Rest.RestWebhookUser.Discord#IGuildUser#Nickname">
+            <inheritdoc />
+        </member>
+        <member name="P:Discord.Rest.RestWebhookUser.Discord#IGuildUser#IsPending">
             <inheritdoc />
         </member>
         <member name="P:Discord.Rest.RestWebhookUser.Discord#IGuildUser#GuildPermissions">
@@ -4145,7 +4167,7 @@
             <param name="options">The options to be used when sending the request.</param>
         </member>
         <member name="T:Discord.Attachment">
-            <inheritdoc/>
+            <inheritdoc cref="T:Discord.IAttachment"/>
         </member>
         <member name="P:Discord.Attachment.Id">
             <inheritdoc />

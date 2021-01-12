@@ -1437,7 +1437,7 @@
                 Represents a generic channel that can send and receive messages.
             </summary>
         </member>
-        <member name="M:Discord.IMessageChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions)">
+        <member name="M:Discord.IMessageChannel.SendMessageAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference)">
             <summary>
                 Sends a message to this message channel.
             </summary>
@@ -1455,12 +1455,13 @@
                 Specifies if notifications are sent for mentioned users and roles in the message <paramref name="text"/>.
                 If <c>null</c>, all mentioned roles and users will be notified.
             </param>
+            <param name="messageReference">The message references to be included. Used to reply to specific messages.</param>
             <returns>
                 A task that represents an asynchronous send operation for delivering the message. The task result
                 contains the sent message.
             </returns>
         </member>
-        <member name="M:Discord.IMessageChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
+        <member name="M:Discord.IMessageChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions,Discord.MessageReference)">
             <summary>
                 Sends a file to this message channel with an optional caption.
             </summary>
@@ -1492,12 +1493,13 @@
                 Specifies if notifications are sent for mentioned users and roles in the message <paramref name="text"/>.
                 If <c>null</c>, all mentioned roles and users will be notified.
             </param>
+            <param name="messageReference">The message references to be included. Used to reply to specific messages.</param>
             <returns>
                 A task that represents an asynchronous send operation for delivering the message. The task result
                 contains the sent message.
             </returns>
         </member>
-        <member name="M:Discord.IMessageChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)">
+        <member name="M:Discord.IMessageChannel.SendFileAsync(System.IO.Stream,System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions,Discord.MessageReference)">
             <summary>
                 Sends a file to this message channel with an optional caption.
             </summary>
@@ -1526,6 +1528,7 @@
                 Specifies if notifications are sent for mentioned users and roles in the message <paramref name="text"/>.
                 If <c>null</c>, all mentioned roles and users will be notified.
             </param>
+            <param name="messageReference">The message references to be included. Used to reply to specific messages.</param>
             <returns>
                 A task that represents an asynchronous send operation for delivering the message. The task result
                 contains the sent message.
@@ -3908,6 +3911,14 @@
                 A string containing the full invite URL (e.g. <c>https://discord.gg/FTqNnyS</c>).
             </returns>
         </member>
+        <member name="P:Discord.IInvite.Inviter">
+            <summary>
+                Gets the user that created this invite.
+            </summary>
+            <returns>
+                A user that created this invite.
+            </returns>
+        </member>
         <member name="P:Discord.IInvite.Channel">
             <summary>
                 Gets the channel this invite is linked to.
@@ -3979,26 +3990,26 @@
                 invite points to; <c>null</c> if one cannot be obtained.
             </returns>
         </member>
+        <member name="P:Discord.IInvite.TargetUser">
+            <summary>
+                Gets the user this invite is linked to via <see cref="P:Discord.IInvite.TargetUserType"/>.
+            </summary>
+            <returns>
+                A user that is linked to this invite.
+            </returns>
+        </member>
+        <member name="P:Discord.IInvite.TargetUserType">
+            <summary>
+                Gets the type of the linked <see cref="P:Discord.IInvite.TargetUser"/> for this invite.
+            </summary>
+            <returns>
+                The type of the linked user that is linked to this invite.
+            </returns>
+        </member>
         <member name="T:Discord.IInviteMetadata">
             <summary>
                 Represents additional information regarding the generic invite object.
             </summary>
-        </member>
-        <member name="P:Discord.IInviteMetadata.Inviter">
-            <summary>
-                Gets the user that created this invite.
-            </summary>
-            <returns>
-                A user that created this invite.
-            </returns>
-        </member>
-        <member name="P:Discord.IInviteMetadata.IsRevoked">
-            <summary>
-                Gets a value that indicates whether the invite has been revoked.
-            </summary>
-            <returns>
-                <c>true</c> if this invite was revoked; otherwise <c>false</c>.
-            </returns>
         </member>
         <member name="P:Discord.IInviteMetadata.IsTemporary">
             <summary>
@@ -4007,6 +4018,14 @@
             <returns>
                 <c>true</c> if users accepting this invite will be removed from the guild when they log off; otherwise 
                 <c>false</c>.
+            </returns>
+        </member>
+        <member name="P:Discord.IInviteMetadata.IsRevoked">
+            <summary>
+                Gets a value that indicates whether the invite has been revoked.
+            </summary>
+            <returns>
+                <c>true</c> if this invite was revoked; otherwise <c>false</c>.
             </returns>
         </member>
         <member name="P:Discord.IInviteMetadata.MaxAge">
@@ -4116,6 +4135,14 @@
                 flag of the <see cref="P:Discord.AllowedMentions.AllowedTypes"/> property. If the flag is set, the value of this property
                 must be <c>null</c> or empty.
             </summary>
+        </member>
+        <member name="P:Discord.AllowedMentions.MentionRepliedUser">
+            <summary>
+                Gets or sets whether to mention the author of the message you are replying to or not.
+            </summary>
+            <remarks>
+                Specifically for inline replies.
+            </remarks>
         </member>
         <member name="M:Discord.AllowedMentions.#ctor(System.Nullable{Discord.AllowedMentionTypes})">
             <summary>
@@ -5282,10 +5309,10 @@
                 Gets all embeds included in this message.
             </summary>
             <remarks>
-            </remarks>
                 This property gets a read-only collection of embeds associated with this message. Depending on the
                 message, a sent message may contain one or more embeds. This is usually true when multiple link previews
                 are generated; however, only one <see cref="F:Discord.EmbedType.Rich"/> <see cref="T:Discord.Embed"/> can be featured.
+            </remarks>
             <returns>
                 A read-only collection of embed objects.
             </returns>
@@ -5344,11 +5371,11 @@
         </member>
         <member name="P:Discord.IMessage.Reference">
             <summary>
-                Gets the reference to the original message if it was crossposted.
+                Gets the reference to the original message if it is a crosspost, channel follow add, pin, or reply message.
             </summary>
             <remarks>
-                Sent with Cross-posted messages, meaning they were published from news channels
-                and received by subscriber channels.
+                Sent with cross-posted messages, meaning they were published from news channels
+                and received by subscriber channels, channel follow adds, pins, and message replies.
             </remarks>
             <returns>
                 A message's reference, if any is associated.
@@ -5358,6 +5385,17 @@
             <summary>
                 Gets all reactions included in this message.
             </summary>
+        </member>
+        <member name="P:Discord.IMessage.Flags">
+            <summary>
+                Gets the flags related to this message.
+            </summary>
+            <remarks>
+                This value is determined by bitwise OR-ing <see cref="T:Discord.MessageFlags"/> values together.
+            </remarks>
+            <returns>
+                A message's flags, if any is associated.
+            </returns>
         </member>
         <member name="M:Discord.IMessage.AddReactionAsync(Discord.IEmote,Discord.RequestOptions)">
             <summary>
@@ -5485,6 +5523,14 @@
             <summary>
                 Represents a generic message sent by a user.
             </summary>
+        </member>
+        <member name="P:Discord.IUserMessage.ReferencedMessage">
+            <summary>
+                Gets the referenced message if it is a crosspost, channel follow add, pin, or reply message.
+            </summary>
+            <returns>
+                The referenced message, if any is associated and still exists.
+            </returns>
         </member>
         <member name="M:Discord.IUserMessage.ModifyAsync(System.Action{Discord.MessageProperties},Discord.RequestOptions)">
             <summary>
@@ -5614,6 +5660,39 @@
                 Gets the name of the application.
             </summary>
         </member>
+        <member name="F:Discord.MessageFlags.None">
+            <summary>
+                Default value for flags, when none are given to a message.
+            </summary>
+        </member>
+        <member name="F:Discord.MessageFlags.Crossposted">
+            <summary>
+                Flag given to messages that have been published to subscribed
+                channels (via Channel Following).
+            </summary>
+        </member>
+        <member name="F:Discord.MessageFlags.IsCrosspost">
+            <summary>
+                Flag given to messages that originated from a message in another
+                channel (via Channel Following).
+            </summary>
+        </member>
+        <member name="F:Discord.MessageFlags.SuppressEmbeds">
+            <summary>
+                Flag given to messages that do not display any embeds.
+            </summary>
+        </member>
+        <member name="F:Discord.MessageFlags.SourceMessageDeleted">
+            <summary>
+                Flag given to messages that the source message for this crosspost
+                has been deleted (via Channel Following).
+            </summary>
+        </member>
+        <member name="F:Discord.MessageFlags.Urgent">
+            <summary>
+                Flag given to messages that came from the urgent message system.
+            </summary>
+        </member>
         <member name="T:Discord.MessageProperties">
             <summary>
                 Properties that are used to modify an <see cref="T:Discord.IUserMessage" /> with the specified changes.
@@ -5637,9 +5716,23 @@
                 Gets or sets the embed the message should display.
             </summary>
         </member>
+        <member name="P:Discord.MessageProperties.Flags">
+            <summary>
+                Gets or sets the flags of the message.
+            </summary>
+            <remarks>
+                Only <see cref="F:Discord.MessageFlags.SuppressEmbeds"/> can be set/unset and you need to be
+                the author of the message.
+            </remarks>
+        </member>
+        <member name="P:Discord.MessageProperties.AllowedMentions">
+            <summary>
+                Gets or sets the allowed mentions of the message.
+            </summary>
+        </member>
         <member name="T:Discord.MessageReference">
             <summary>
-                Contains the IDs sent from a crossposted message.
+                Contains the IDs sent from a crossposted message or inline reply.
             </summary>
         </member>
         <member name="P:Discord.MessageReference.MessageId">
@@ -5651,11 +5744,28 @@
             <summary>
                 Gets the Channel ID of the original message.
             </summary>
+            <remarks>
+                It only will be the default value (zero) if it was instantiated with a <see langword="null"/> in the constructor.
+            </remarks>
         </member>
         <member name="P:Discord.MessageReference.GuildId">
             <summary>
                 Gets the Guild ID of the original message.
             </summary>
+        </member>
+        <member name="M:Discord.MessageReference.#ctor(System.Nullable{System.UInt64},System.Nullable{System.UInt64},System.Nullable{System.UInt64})">
+            <summary>
+                Initializes a new instance of the <see cref="T:Discord.MessageReference"/> class.
+            </summary>
+            <param name="messageId">
+                The ID of the message that will be referenced. Used to reply to specific messages and the only parameter required for it.
+            </param>
+            <param name="channelId">
+                The ID of the channel that will be referenced. It will be validated if sent.
+            </param>
+            <param name="guildId">
+                The ID of the guild that will be referenced. It will be validated if sent.
+            </param>
         </member>
         <member name="T:Discord.MessageSource">
             <summary>
@@ -5751,6 +5861,14 @@
             <summary>
                 The message for when a news channel subscription is added to a text channel.
             </summary>
+        </member>
+        <member name="F:Discord.MessageType.Reply">
+            <summary>
+                The message is an inline reply.
+            </summary>
+            <remarks>
+                Only available in API v8.
+            </remarks>
         </member>
         <member name="T:Discord.ReactionMetadata">
             <summary>
@@ -6771,6 +6889,14 @@
                 An <see cref="T:System.Int32"/> representing the position of the role in the role list of the guild.
             </returns>
         </member>
+        <member name="P:Discord.IRole.Tags">
+            <summary>
+                Gets the tags related to this role.
+            </summary>
+            <returns>
+                A <see cref="T:Discord.RoleTags"/> object containing all tags related to this role.
+            </returns>
+        </member>
         <member name="M:Discord.IRole.ModifyAsync(System.Action{Discord.RoleProperties},Discord.RequestOptions)">
             <summary>
                 Modifies this role.
@@ -6875,6 +7001,38 @@
             <remarks>
                 This value may not be set if the role is an @everyone role.
             </remarks>
+        </member>
+        <member name="T:Discord.RoleTags">
+            <summary>
+                Provides tags related to a discord role.
+            </summary>
+        </member>
+        <member name="P:Discord.RoleTags.BotId">
+            <summary>
+                Gets the identifier of the bot that this role belongs to, if it does.
+            </summary>
+            <returns>
+                A <see langword="ulong"/> if this role belongs to a bot; otherwise
+                <see langword="null"/>.
+            </returns>
+        </member>
+        <member name="P:Discord.RoleTags.IntegrationId">
+            <summary>
+                Gets the identifier of the integration that this role belongs to, if it does.
+            </summary>
+            <returns>
+                A <see langword="ulong"/> if this role belongs to an integration; otherwise
+                <see langword="null"/>.
+            </returns>
+        </member>
+        <member name="P:Discord.RoleTags.IsPremiumSubscriberRole">
+            <summary>
+                Gets if this role is the guild's premium subscriber (booster) role.
+            </summary>
+            <returns>
+                <see langword="true"/> if this role is the guild's premium subscriber role;
+                otherwise <see langword="false"/>.
+            </returns>
         </member>
         <member name="T:Discord.ITeam">
             <summary>
@@ -7187,13 +7345,18 @@
                 this user possesses.
             </returns>
         </member>
+        <member name="P:Discord.IGuildUser.IsPending">
+            <summary>
+                Whether the user has passed the guild's Membership Screening requirements.
+            </summary>
+        </member>
         <member name="M:Discord.IGuildUser.GetPermissions(Discord.IGuildChannel)">
             <summary>
                 Gets the level permissions granted to this user to a given channel.
             </summary>
             <example>
                 <para>The following example checks if the current user has the ability to send a message with attachment in
-                this channel; if so, uploads a file via <see cref="M:Discord.IMessageChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions)"/>.</para>
+                this channel; if so, uploads a file via <see cref="M:Discord.IMessageChannel.SendFileAsync(System.String,System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,System.Boolean,Discord.AllowedMentions,Discord.MessageReference)"/>.</para>
                 <code language="cs">
                 if (currentUser?.GetPermissions(targetChannel)?.AttachFiles)
                     await targetChannel.SendFileAsync("fortnite.png");
@@ -7437,6 +7600,17 @@
                 Gets the username for this user.
             </summary>
         </member>
+        <member name="P:Discord.IUser.PublicFlags">
+            <summary>
+                Gets the public flags that are applied to this user's account.
+            </summary>
+            <remarks>
+                This value is determined by bitwise OR-ing <see cref="T:Discord.UserProperties"/> values together.
+            </remarks>
+            <returns>
+                The value of public flags for this user.
+            </returns>
+        </member>
         <member name="M:Discord.IUser.GetOrCreateDMChannelAsync(Discord.RequestOptions)">
             <summary>
                 Gets the direct message channel of this user, or create one if it does not already exist.
@@ -7582,17 +7756,28 @@
         </member>
         <member name="F:Discord.UserProperties.Staff">
             <summary>
-                Flag given to Discord staff.
+                Flag given to users who are a Discord employee.
             </summary>
         </member>
         <member name="F:Discord.UserProperties.Partner">
             <summary>
-                Flag given to Discord partners.
+                Flag given to users who are owners of a partnered Discord server.
+            </summary>
+        </member>
+        <member name="F:Discord.UserProperties.HypeSquadEvents">
+            <summary>
+                Flag given to users in HypeSquad events.
             </summary>
         </member>
         <member name="F:Discord.UserProperties.BugHunter">
             <summary>
                 Flag given to users who have participated in the bug report program.
+                This flag is obsolete, use <see cref="F:Discord.UserProperties.BugHunterLevel1"/> instead.
+            </summary>
+        </member>
+        <member name="F:Discord.UserProperties.BugHunterLevel1">
+            <summary>
+                Flag given to users who have participated in the bug report program and are level 1.
             </summary>
         </member>
         <member name="F:Discord.UserProperties.HypeSquadBravery">
@@ -7613,6 +7798,31 @@
         <member name="F:Discord.UserProperties.EarlySupporter">
             <summary>
                 Flag given to users who subscribed to Nitro before games were added.
+            </summary>
+        </member>
+        <member name="F:Discord.UserProperties.TeamUser">
+            <summary>
+                Flag given to users who are part of a team.
+            </summary>
+        </member>
+        <member name="F:Discord.UserProperties.System">
+            <summary>
+                Flag given to users who represent Discord (System).
+            </summary>
+        </member>
+        <member name="F:Discord.UserProperties.BugHunterLevel2">
+            <summary>
+                Flag given to users who have participated in the bug report program and are level 2.
+            </summary>
+        </member>
+        <member name="F:Discord.UserProperties.VerifiedBot">
+            <summary>
+                Flag given to users who are verified bots.
+            </summary>
+        </member>
+        <member name="F:Discord.UserProperties.EarlyVerifiedBotDeveloper">
+            <summary>
+                Flag given to users that developed bots and early verified their accounts.
             </summary>
         </member>
         <member name="T:Discord.UserStatus">
@@ -7905,6 +8115,23 @@
             </returns>
             <seealso cref="M:Discord.IMessage.RemoveReactionAsync(Discord.IEmote,Discord.IUser,Discord.RequestOptions)"/>
             <seealso cref="T:Discord.IEmote"/>
+        </member>
+        <member name="M:Discord.MessageExtensions.ReplyAsync(Discord.IUserMessage,System.String,System.Boolean,Discord.Embed,Discord.AllowedMentions,Discord.RequestOptions)">
+            <summary>
+                Sends an inline reply that references a message.
+            </summary>
+            <param name="text">The message to be sent.</param>
+            <param name="isTTS">Determines whether the message should be read aloud by Discord or not.</param>
+            <param name="embed">The <see cref="F:Discord.EmbedType.Rich"/> <see cref="T:Discord.Embed"/> to be sent.</param>
+            <param name="allowedMentions">
+                Specifies if notifications are sent for mentioned users and roles in the message <paramref name="text"/>.
+                If <c>null</c>, all mentioned roles and users will be notified.
+            </param>
+            <param name="options">The options to be used when sending the request.</param>
+            <returns>
+                A task that represents an asynchronous send operation for delivering the message. The task result
+                contains the sent message.
+            </returns>
         </member>
         <member name="T:Discord.UserExtensions">
             <summary> An extension class for various Discord user objects. </summary>
